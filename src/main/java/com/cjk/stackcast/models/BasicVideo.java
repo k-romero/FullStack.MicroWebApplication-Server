@@ -1,5 +1,5 @@
 package com.cjk.stackcast.models;
 
-public class BasicVideo {
+public class BasicVideo extends Video{
 
 }

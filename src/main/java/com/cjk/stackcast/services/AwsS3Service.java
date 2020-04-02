@@ -1,7 +1,7 @@
 package com.cjk.stackcast.services;
 
 
-import com.cjk.stackcast.aws.AwsConfiguration;
+import com.cjk.stackcast.aws.AwsS3Configuration;
 import com.cjk.stackcast.aws.DemoObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 @Service
-public class AwsService {
+public class AwsS3Service {
 
     @Autowired
-    AwsConfiguration config;
+    AwsS3Configuration config;
 
     public PutObjectResponse uploadFile(DemoObject demoObject) throws S3Exception,
             AwsServiceException, SdkClientException, URISyntaxException,

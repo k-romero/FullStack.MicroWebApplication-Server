@@ -23,20 +23,6 @@ public class AwsService {
     @Autowired
     AwsConfiguration config;
 
-//    public void uploadFile(DemoObject demoObject) throws S3Exception,
-//            AwsServiceException, SdkClientException, URISyntaxException,
-//            FileNotFoundException {
-//
-//        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-//                .bucket(config.getBucket()).key(demoObject.getName())
-//                .acl(ObjectCannedACL.PUBLIC_READ_WRITE)
-//                .build();
-//
-//        File file = new File(getClass().getClassLoader()
-//                .getResource(demoObject.getName()).getFile());
-//        config.generateS3Client().putObject(putObjectRequest, RequestBody.fromFile(file));
-//    }
-
     public PutObjectResponse uploadFile(DemoObject demoObject) throws S3Exception,
             AwsServiceException, SdkClientException, URISyntaxException,
             FileNotFoundException {

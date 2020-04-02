@@ -1,6 +1,5 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.aws.AwsConfiguration;
 import com.cjk.stackcast.aws.DemoObject;
 import com.cjk.stackcast.services.AwsService;
 import org.springframework.beans.factory.annotation.Autowired;

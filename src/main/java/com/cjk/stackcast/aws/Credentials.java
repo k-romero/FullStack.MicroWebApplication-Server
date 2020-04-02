@@ -1,6 +1,8 @@
 package com.cjk.stackcast.aws;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -33,7 +35,7 @@ public class Credentials {
     @Value("${cloud.aws.credentials.bucket}")
     private String bucket;
 
-    private final Region region = Region.US_EAST_2;
+    private final Region region = Region.US_EAST_1;
 
     private S3Client s3Client;
 
@@ -57,8 +59,8 @@ public class Credentials {
                                             .acl(ObjectCannedACL.PUBLIC_READ_WRITE)
                                             .build();
 
-        File file = new File(Objects.requireNonNull(getClass().getClassLoader()
-                .getResource(demoObject.getName())).getFile());
+        File file = new File(getClass().getClassLoader()
+                .getResource(demoObject.getName()).getFile());
 
         s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
     }

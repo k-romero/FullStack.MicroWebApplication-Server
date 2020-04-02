@@ -61,6 +61,15 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--Necessary for AWS-->
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.757</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

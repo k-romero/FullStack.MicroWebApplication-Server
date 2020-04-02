@@ -16,15 +16,14 @@ import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.util.Objects;
+
 
 @Configuration
 @Service
-public class Credentials {
+public class AwsConfiguration {
 
     @Value("${cloud.aws.credentials.accessKey}")
     private String key;
@@ -37,33 +36,21 @@ public class Credentials {
 
     private final Region region = Region.US_EAST_1;
 
-    private S3Client s3Client;
+    @Bean
+    public String getBucket(){
+        return this.bucket;
+    }
 
-    @PostConstruct
-    public void initialize(){
+    @Bean
+    public S3Client generateS3Client(){
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(key, secretKey);
-
-        s3Client = S3Client.builder()
-                                    .credentialsProvider(StaticCredentialsProvider
+        return S3Client.builder().credentialsProvider(StaticCredentialsProvider
                                     .create(awsCreds))
                                     .region(region)
                                     .build();
     }
 
-    public void uploadFile(DemoObject demoObject) throws S3Exception,
-            AwsServiceException, SdkClientException, URISyntaxException,
-            FileNotFoundException {
 
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                                            .bucket(bucket).key(demoObject.getName())
-                                            .acl(ObjectCannedACL.PUBLIC_READ_WRITE)
-                                            .build();
-
-        File file = new File(getClass().getClassLoader()
-                .getResource(demoObject.getName()).getFile());
-
-        s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
-    }
 
 
 }

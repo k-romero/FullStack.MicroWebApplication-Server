@@ -1,7 +1,8 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.aws.Credentials;
+import com.cjk.stackcast.aws.AwsConfiguration;
 import com.cjk.stackcast.aws.DemoObject;
+import com.cjk.stackcast.services.AwsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class AwsS3Controller {
 
     @Autowired
-    Credentials awsService;
+    AwsService awsService;
 
     @PostMapping("/addobject")
     public void createObject(@RequestBody DemoObject demoObject) throws Exception{

@@ -1,8 +1,10 @@
 package com.cjk.stackcast.models.video;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "UserVideo")
 public class UserVideo extends Video{
     private Long userId;
 
@@ -13,4 +15,5 @@ public class UserVideo extends Video{
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
 }

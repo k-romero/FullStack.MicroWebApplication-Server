@@ -3,7 +3,10 @@ package com.cjk.stackcast.models.video;
 import javax.persistence.*;
 import java.util.TreeSet;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "discriminatorColumn")
+@Table(name="Video")
 public abstract class Video {
 
     @Id

@@ -27,13 +27,16 @@ public class AwsS3Service {
             AwsServiceException, SdkClientException, URISyntaxException,
             FileNotFoundException {
 
+        //Create Object Request
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(config.getBucket()).key(demoObject.getName())
                 .acl(ObjectCannedACL.PUBLIC_READ_WRITE)
                 .build();
-
+        //Get File
         File file = new File(getClass().getClassLoader()
                 .getResource(demoObject.getName()).getFile());
+
+        //Generate S3Client And Post Object To S3 Bucket
         return config.generateS3Client().putObject(putObjectRequest, RequestBody.fromFile(file));
     }
 

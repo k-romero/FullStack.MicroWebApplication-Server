@@ -1,8 +1,10 @@
 package com.cjk.stackcast.models.video;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "BasicVideo")
 public class BasicVideo extends Video{
 
     public BasicVideo() {

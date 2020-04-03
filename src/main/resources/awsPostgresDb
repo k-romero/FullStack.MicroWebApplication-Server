@@ -1,0 +1,8 @@
+psql \
+  --host=stackcast.cf4fiaig8ek7.us-east-1.rds.amazonaws.com \
+  --port=5432 \
+  --username=stackcastKR \
+  --password \
+  --dbname=stackcastvids
+
+  please inquire for PW

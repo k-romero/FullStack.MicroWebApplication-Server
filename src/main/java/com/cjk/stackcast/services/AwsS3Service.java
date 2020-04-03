@@ -17,7 +17,6 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.util.Objects;
 
 @Service
 public class AwsS3Service {

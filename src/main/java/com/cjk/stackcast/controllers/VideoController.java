@@ -25,45 +25,25 @@ public class VideoController {
     @Autowired
     private AwsS3Controller awsS3;
 
-    @Autowired
-    AwsS3Configuration config;
-
     @GetMapping(value = "/showvids/{id}")
     public ResponseEntity<?> findVideoById(@PathVariable Long id){
         return this.service.show(id)
                 .map(video -> ResponseEntity
-                                .ok()
-                                .body(video))
+                        .ok()
+                        .body(video))
                 .orElse(ResponseEntity
-                            .notFound()
-                            .build());
+                        .notFound()
+                        .build());
     }
 
     @PostMapping("/upload")
     public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
-        String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
+        Video tempVideo = service.saveBasicVideo(videoName,multipartFile);
+        if(tempVideo != null){
+            return new ResponseEntity<>(tempVideo,HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 
-        //Convert file for upload
-        File file = service.convertMultiPartFile(multipartFile);
-
-        //Build video obj to store in db with url
-        BasicVideo video = new BasicVideo(videoName,multipartFile.getContentType());
-        String fileName = service.generateFileName(file.getName());
-        String fileUrl = endPointUrl + "/" + fileName;
-        video.setVideoPath(fileUrl);
-
-        //Attempt to upload file and if OK store video body in DB
-        if(this.awsS3.uploadFile(file,fileName).isSuccessful()){
-            BasicVideo videoAddedToDB = this.service.createBasicVideo(video);
-                try {
-                    return ResponseEntity
-                            .created(new URI("/newvideos/" + videoAddedToDB.getVideoId()))
-                            .body(videoAddedToDB);
-                } catch (URISyntaxException e){
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                }
-            }
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 

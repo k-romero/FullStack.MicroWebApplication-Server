@@ -70,6 +70,14 @@
             <scope>compile</scope>
         </dependency>
 
+        <!--Necessary for postgresql-->
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.11</version>
+        </dependency>
+
         <!--Necessary for AWS-->
 
         <dependency>

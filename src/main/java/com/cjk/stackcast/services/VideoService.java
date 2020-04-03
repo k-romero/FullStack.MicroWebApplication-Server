@@ -19,6 +19,10 @@ public class VideoService {
         return Optional.of(repo.findVideoByVideoId(videoId));
     }
 
+    public Iterable<Video> showAll(){
+        return repo.findAll();
+    }
+
     public Video createBasicVideo(BasicVideo basicVideo){
         return repo.save(basicVideo);
     }
@@ -26,4 +30,18 @@ public class VideoService {
     public Video createUserVideo(UserVideo userVideo){
         return repo.save(userVideo);
     }
+
+    public boolean delete(Long videoId){
+        return repo.deleteVideoByVideoId(videoId);
+    }
+
+
+
+
+
+
+
+
+
+
 }

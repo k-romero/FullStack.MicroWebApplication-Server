@@ -1,5 +1,6 @@
 package com.cjk.stackcast.repositories;
 
+import com.cjk.stackcast.models.video.UserVideo;
 import com.cjk.stackcast.models.video.Video;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface VideoRepository extends JpaRepository<Video,Long> {
 
     public Video findVideoByVideoId(Long videoId);
-
+    public boolean deleteVideoByVideoId(Long videoId);
 }

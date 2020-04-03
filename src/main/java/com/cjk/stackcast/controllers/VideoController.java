@@ -1,6 +1,7 @@
 package com.cjk.stackcast.controllers;
 
 import com.cjk.stackcast.models.video.BasicVideo;
+import com.cjk.stackcast.models.video.UserVideo;
 import com.cjk.stackcast.models.video.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class VideoController {
     @PostMapping("/createbasic")
     public ResponseEntity<Video> createBasicVideo(@RequestBody BasicVideo basicVideo) {
         Video video = this.service.createBasicVideo(basicVideo);
-
         try {
             return ResponseEntity
                     .created(new URI("/createbasic/" + video.getVideoId()))
@@ -41,6 +41,21 @@ public class VideoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PostMapping("/createuser")
+    public ResponseEntity<Video> createUserVideo(@RequestBody UserVideo userVideo) {
+        Video video = this.service.createUserVideo(userVideo);
+        try {
+            return ResponseEntity
+                    .created(new URI("/createuser/" + video.getVideoId()))
+                    .body(video);
+        } catch (URISyntaxException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
 
 
 }

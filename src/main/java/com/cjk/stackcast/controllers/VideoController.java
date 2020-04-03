@@ -8,9 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.http.SdkHttpResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Time;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/videos")
@@ -18,6 +25,10 @@ public class VideoController {
 
     @Autowired
     private VideoService service;
+    @Autowired
+    private AwsS3Controller awsS3Controller;
+
+    private final String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
 
     @GetMapping(value = "/showvids/{id}")
     public ResponseEntity<?> findVideoById(@PathVariable Long id){
@@ -30,32 +41,53 @@ public class VideoController {
                             .build());
     }
 
-    @PostMapping("/createbasic")
-    public ResponseEntity<Video> createBasicVideo(@RequestBody BasicVideo basicVideo) {
-        Video video = this.service.createBasicVideo(basicVideo);
+    @PostMapping("/upload")
+    public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        String fileUrl = "";
+        BasicVideo video = new BasicVideo();
+        video.setVideoName(videoName);
+        video.setVideoType(multipartFile.getContentType());
+        video.setVideoViews(0);
         try {
-            return ResponseEntity
-                    .created(new URI("/createbasic/" + video.getVideoId()))
-                    .body(video);
-        } catch (URISyntaxException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            File file = convertMultiPartFile(multipartFile);
+            String fileName = generateFileName(multipartFile);
+            fileUrl = endPointUrl + "/" + fileName;
+            video.setVideoPath(fileUrl);
+            if(uploadFileFromAwsController(file,fileName).isSuccessful()){
+                BasicVideo videoAddedToDB = this.service.createBasicVideo(video);
+                try {
+                    return ResponseEntity
+                            .created(new URI("/newvideos/" + videoAddedToDB.getVideoId()))
+                            .body(videoAddedToDB);
+                } catch (URISyntaxException e){
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            } else return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/createuser")
-    public ResponseEntity<Video> createUserVideo(@RequestBody UserVideo userVideo) {
-        Video video = this.service.createUserVideo(userVideo);
-        try {
-            return ResponseEntity
-                    .created(new URI("/createuser/" + video.getVideoId()))
-                    .body(video);
-        } catch (URISyntaxException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    //AWS Controller Methods
+    public SdkHttpResponse uploadFileFromAwsController(File file, String fileName) throws Exception {
+       return this.awsS3Controller.uploadFile(file,fileName);
     }
 
+    //Covert MultiPart File
+    public File convertMultiPartFile(MultipartFile file) throws IOException {
+        File convertFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convertFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convertFile;
+    }
 
-
+    //Generate Random File Name Prefix
+    public String generateFileName(MultipartFile multipartFile){
+        return new Date().getTime() + "-" + multipartFile.getOriginalFilename().replace(" ", "_");
+    }
 
 
 }

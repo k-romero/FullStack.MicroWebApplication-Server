@@ -13,8 +13,6 @@ import java.io.File;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -60,7 +58,6 @@ public class VideoService {
     public boolean delete(Long videoId){
         return repo.deleteVideoByVideoId(videoId);
     }
-
 
 
     //Covert MultiPart File

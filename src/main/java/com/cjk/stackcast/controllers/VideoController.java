@@ -1,16 +1,13 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.video.BasicVideo;
-import com.cjk.stackcast.models.video.UserVideo;
 import com.cjk.stackcast.models.video.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/videos")
@@ -23,39 +20,22 @@ public class VideoController {
     public ResponseEntity<?> findVideoById(@PathVariable Long id){
         return this.service.show(id)
                 .map(video -> ResponseEntity
-                                .ok()
-                                .body(video))
+                        .ok()
+                        .body(video))
                 .orElse(ResponseEntity
-                            .notFound()
-                            .build());
+                        .notFound()
+                        .build());
     }
 
-    @PostMapping("/createbasic")
-    public ResponseEntity<Video> createBasicVideo(@RequestBody BasicVideo basicVideo) {
-        Video video = this.service.createBasicVideo(basicVideo);
-        try {
-            return ResponseEntity
-                    .created(new URI("/createbasic/" + video.getVideoId()))
-                    .body(video);
-        } catch (URISyntaxException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @PostMapping("/upload")
+    public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        Video tempVideo = service.saveBasicVideo(videoName,multipartFile);
+        if(tempVideo != null){
+            return new ResponseEntity<>(tempVideo,HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+
     }
-
-    @PostMapping("/createuser")
-    public ResponseEntity<Video> createUserVideo(@RequestBody UserVideo userVideo) {
-        Video video = this.service.createUserVideo(userVideo);
-        try {
-            return ResponseEntity
-                    .created(new URI("/createuser/" + video.getVideoId()))
-                    .body(video);
-        } catch (URISyntaxException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-
-
 
 
 }

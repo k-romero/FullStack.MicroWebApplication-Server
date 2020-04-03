@@ -1,7 +1,6 @@
 package com.cjk.stackcast.models.video;
 
 import javax.persistence.*;
-import java.util.TreeSet;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -39,10 +38,10 @@ public abstract class Video {
         videoViews = 0;
     }
 
-    public Video(String videoName, String videoPath) {
+    public Video(String videoName, String videoType) {
         this.videoName = videoName;
-        this.videoPath = videoPath;
-        videoType = "";
+        videoPath = "";
+        this.videoType = videoType;
         videoViews = 0;
     }
 

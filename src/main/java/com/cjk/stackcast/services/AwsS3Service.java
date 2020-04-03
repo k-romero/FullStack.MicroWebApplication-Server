@@ -2,10 +2,8 @@ package com.cjk.stackcast.services;
 
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
-import com.cjk.stackcast.aws.DemoObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;

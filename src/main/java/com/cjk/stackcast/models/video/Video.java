@@ -1,7 +1,6 @@
 package com.cjk.stackcast.models.video;
 
 import javax.persistence.*;
-import java.util.TreeSet;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

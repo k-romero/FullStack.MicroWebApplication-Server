@@ -1,10 +1,8 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.aws.DemoObject;
 import com.cjk.stackcast.services.AwsS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.http.SdkHttpResponse;
 
 import java.io.File;

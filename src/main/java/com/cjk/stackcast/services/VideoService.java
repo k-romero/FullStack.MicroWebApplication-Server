@@ -2,12 +2,9 @@ package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.controllers.AwsS3Controller;
 import com.cjk.stackcast.models.video.BasicVideo;
-import com.cjk.stackcast.models.video.UserVideo;
 import com.cjk.stackcast.models.video.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

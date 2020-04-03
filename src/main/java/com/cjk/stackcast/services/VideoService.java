@@ -59,6 +59,23 @@ public class VideoService {
         return repo.deleteVideoByVideoId(videoId);
     }
 
+    public BasicVideo incrementVideoViews(Long videoId){
+        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+        video.setVideoViews(video.getVideoViews() + 1);
+        return repo.save(video);
+    }
+
+    public BasicVideo updateVideoName(Long videoId, String newName){
+        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+        video.setVideoName(newName);
+        return repo.save(video);
+    }
+
+    public BasicVideo updateVideoPath(Long videoId, String newPath){
+        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+        video.setVideoPath(newPath);
+        return repo.save(video);
+    }
 
     //Covert MultiPart File
     public File convertMultiPartFile(MultipartFile file) throws IOException {

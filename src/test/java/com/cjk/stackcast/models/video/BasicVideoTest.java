@@ -71,8 +71,8 @@ class BasicVideoTest {
     @Test
     void setVideoType() {
         String expected = "mp4";
-        testVideo.setVideoName(expected);
-        String actual = testVideo.getVideoName();
+        testVideo.setVideoType(expected);
+        String actual = testVideo.getVideoType();
         assertEquals(expected,actual);
     }
 

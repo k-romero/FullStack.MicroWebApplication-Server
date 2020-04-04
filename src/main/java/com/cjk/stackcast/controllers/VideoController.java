@@ -57,7 +57,7 @@ public class VideoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> delteVideo(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deleteVideo(@PathVariable Long id) throws Exception {
         return new ResponseEntity<>(service.delete(id),HttpStatus.GONE);
     }
 }

@@ -1,21 +1,17 @@
 package com.cjk.stackcast.models;
 
-import com.cjk.stackcast.models.comment.Comment;
-
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 
 @Entity
+@Table(name = "Users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+
     private String firstName;
     private String lastName;
     private String password;
@@ -27,25 +23,11 @@ public class User {
         this.lastName = lastName;
         this.password = "";
         this.dateCreated = LocalDate.now();
+        this.isConnected = false;
     }
 
-    public User(Long userId,String firstName, String lastName) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = "";
-        this.dateCreated = LocalDate.now();
-    }
 
     public User() {
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Long getUserId() {
@@ -70,6 +52,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDate getDateCreated() {

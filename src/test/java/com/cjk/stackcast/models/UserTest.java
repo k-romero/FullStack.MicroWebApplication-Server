@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class UserTest {
 
-    User testUser = new User(1L,"Bob","Smith");
+    User testUser = new User("Bob","Smith");
 
 
     @Test
@@ -28,21 +28,6 @@ public class UserTest {
         String expected = "testSample";
         testUser.setPassword(expected);
         String actual = testUser.getPassword();
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    void getUserIdTest() {
-        Long expected = (1L);
-        Long actual = testUser.getUserId();
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    void setUserIdTest() {
-        Long expected = 2L;
-        testUser.setUserId(expected);
-        Long actual = testUser.getUserId();
         assertEquals(expected,actual);
     }
 

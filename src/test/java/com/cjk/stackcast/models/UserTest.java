@@ -77,21 +77,6 @@ public class UserTest {
     }
 
     @Test
-    void commentHistoryTest() {
-        //Comment comment = new Comment();
-        // The comment class has not be created yet
-    }
-
-    @Test
-    void uploadHistoryTest() {
-        ArrayList<Long> expected = new ArrayList();
-        expected.add(1L);
-        testUser.setUploadHistory(expected);
-        ArrayList<Long>actual = testUser.getUploadHistory();
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void dateCreatedTest() {
         LocalDate expected = LocalDate.now();
         LocalDate actual = testUser.getDateCreated();
@@ -100,6 +85,8 @@ public class UserTest {
 
     @Test
     void setDateCreatedTest() {
+        assertNotNull(testUser.getDateCreated());
+        System.out.println(testUser.getDateCreated());
     }
 
 

@@ -2,37 +2,41 @@ package com.cjk.stackcast.models;
 
 import com.cjk.stackcast.models.comment.Comment;
 
-import java.security.PrivateKey;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Entity
 public class User {
-// Instance Fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
     private String firstName;
     private String lastName;
     private String password;
     private LocalDate dateCreated;
-    private ArrayList<Comment> commentHistory;
-    private ArrayList<Long> uploadHistory;
 
-// Why do we need both of these User constuctors?
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = "";
         this.dateCreated = LocalDate.now();
-        this.commentHistory = new ArrayList<>();
-        this.uploadHistory = new ArrayList<>();
     }
+
     public User(Long userId,String firstName, String lastName) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = "";
         this.dateCreated = LocalDate.now();
-        this.commentHistory = new ArrayList<>();
-        this.uploadHistory = new ArrayList<>();
+    }
+
+    public User() {
     }
 
     public String getPassword() {
@@ -42,7 +46,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public Long getUserId() {
         return userId;
@@ -68,14 +71,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public ArrayList<Comment> getCommentHistory() {
-        return commentHistory;
-    }
-
-    public ArrayList<Long> getUploadHistory() {
-        return uploadHistory;
-    }
-
     public LocalDate getDateCreated() {
         return dateCreated;
     }
@@ -83,14 +78,5 @@ public class User {
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-    public void setCommentHistory(ArrayList<Comment> commentHistory) {
-        this.commentHistory = commentHistory;
-    }
-
-    public void setUploadHistory(ArrayList<Long> uploadHistory) {
-        this.uploadHistory = uploadHistory;
-    }
-
 
 }

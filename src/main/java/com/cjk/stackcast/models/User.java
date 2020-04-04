@@ -16,7 +16,7 @@ public class User {
     private ArrayList<Comment> commentHistory;
     private ArrayList<Long> uploadHistory;
 
-
+// Why do we need both of these User constuctors?
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

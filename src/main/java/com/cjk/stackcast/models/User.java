@@ -20,6 +20,7 @@ public class User {
     private String lastName;
     private String password;
     private LocalDate dateCreated;
+    private Boolean isConnected = false;
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
@@ -79,4 +80,11 @@ public class User {
         this.dateCreated = dateCreated;
     }
 
+    public Boolean getConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(Boolean connected) {
+        isConnected = connected;
+    }
 }

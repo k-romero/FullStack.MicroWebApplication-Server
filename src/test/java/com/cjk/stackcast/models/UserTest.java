@@ -97,8 +97,7 @@ public class UserTest {
         LocalDate actual = testUser.getDateCreated();
         assertEquals(expected,actual);
     }
-        // Do we need a local date if when the user being created the date ia actually the date of the current date, which is now?
-        // Do the date created need to be a "final"?
+
     @Test
     void setDateCreatedTest() {
     }

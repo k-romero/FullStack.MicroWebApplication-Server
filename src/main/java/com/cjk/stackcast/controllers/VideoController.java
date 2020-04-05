@@ -30,8 +30,8 @@ public class VideoController {
     @GetMapping("/showvids")
     public ResponseEntity<Iterable<Video>> showVideos() {
         return new ResponseEntity<>(service.showAll(),HttpStatus.OK);
-    }
 
+}
     @PostMapping("/upload")
     public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
         Video tempVideo = service.saveBasicVideo(videoName,multipartFile);

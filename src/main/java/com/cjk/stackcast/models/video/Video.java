@@ -23,6 +23,14 @@ public abstract class Video {
         videoViews = 0;
     }
 
+    public Video(Long videoId,String videoName, String videoPath, String videoType) {
+        this.videoId = videoId;
+        this.videoName = videoName;
+        this.videoPath = videoPath;
+        this.videoType = videoType;
+        videoViews = 0;
+    }
+
     public Video(String videoName, String videoType) {
         this.videoName = videoName;
         videoPath = "";

@@ -1,26 +1,25 @@
 package com.cjk.stackcast.models;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
 public class UserTest {
 
-    User testUser = new User(1L,"Bob","Smith");
+    User testUser = new User("BobSmith");
 
 
     @Test
-    void getPassword() {
+    void getPasswordTest() {
         String expected = "";
         String actual = testUser.getPassword();
         assertEquals(expected,actual);
     }
 
     @Test
-    void setPassword() {
+    void setPasswordTest() {
         String expected = "testSample";
         testUser.setPassword(expected);
         String actual = testUser.getPassword();
@@ -28,50 +27,34 @@ public class UserTest {
     }
 
     @Test
-    void getUserId() {
+    void getFirstNameTest() {
+        String expected = "BobSmith";
+        String actual = testUser.getUserName();
+        assertEquals(expected,actual);
     }
 
     @Test
-    void setUserId() {
+    void setFirstNameTest() {
+        String expected = "JeffTheGreat";
+        testUser.setUserName(expected);
+        String actual = testUser.getUserName();
+        assertEquals(expected,actual);
     }
 
     @Test
-    void getFirstName() {
+    void dateCreatedTest() {
+        LocalDate expected = LocalDate.now();
+        LocalDate actual = testUser.getDateCreated();
+        assertEquals(expected,actual);
     }
 
     @Test
-    void setFirstName() {
+    void setDateCreatedTest() {
+        assertNotNull(testUser.getDateCreated());
+        System.out.println(testUser.getDateCreated());
     }
 
-    @Test
-    void getLastName() {
-    }
 
-    @Test
-    void setLastName() {
-    }
 
-    @Test
-    void getCommentHistory() {
-    }
 
-    @Test
-    void getUploadHistory() {
-    }
-
-    @Test
-    void getDateCreated() {
-    }
-
-    @Test
-    void setDateCreated() {
-    }
-
-    @Test
-    void setCommentHistory() {
-    }
-
-    @Test
-    void setUploadHistory() {
-    }
 }

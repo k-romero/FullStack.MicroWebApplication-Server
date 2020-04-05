@@ -3,16 +3,16 @@
     {
       "name": "cloud.aws.credentials.accessKey",
       "type": "java.lang.String",
-      "description": "This is the accessKey for AWS S3 Bucket."
+      "description": "Description for cloud.aws.credentials.accessKey."
     },
     {
       "name": "cloud.aws.credentials.secretKey",
       "type": "java.lang.String",
-      "description": "This is the secretKey for AWS S3 Bucket."
+      "description": "Description for cloud.aws.credentials.secretKey."
     },
     {
       "name": "cloud.aws.credentials.bucket",
       "type": "java.lang.String",
-      "description": "This is the bucket name for AWS S3 Bucket."
+      "description": "Description for cloud.aws.credentials.bucket."
     }
   ] }

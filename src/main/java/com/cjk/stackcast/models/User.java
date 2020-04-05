@@ -1,48 +1,45 @@
 package com.cjk.stackcast.models;
 
-import com.cjk.stackcast.models.comment.Comment;
-
-import java.security.PrivateKey;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
+
+@Entity
+@Table(name = "Users")
 public class User {
-// Instance Fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
-    private String firstName;
-    private String lastName;
+
+    @NotEmpty(message = "UserName may not be empty")
+    @Size(min=4, max=20)
+    private String userName;
+
+    @NotEmpty(message = "Password may not be empty")
+    @Size(min=6, max=20)
     private String password;
-    private LocalDate dateCreated;
-    private ArrayList<Comment> commentHistory;
-    private ArrayList<Long> uploadHistory;
+    private LocalDate dateCreated = LocalDate.now();
+    private Boolean isConnected = false;
 
-// Why do we need both of these User constuctors?
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String userName) {
+        this.userName = userName;
         this.password = "";
         this.dateCreated = LocalDate.now();
-        this.commentHistory = new ArrayList<>();
-        this.uploadHistory = new ArrayList<>();
-    }
-    public User(Long userId,String firstName, String lastName) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = "";
-        this.dateCreated = LocalDate.now();
-        this.commentHistory = new ArrayList<>();
-        this.uploadHistory = new ArrayList<>();
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    public User(String userName,String password) {
+        this.userName = userName;
         this.password = password;
+        this.dateCreated = LocalDate.now();
     }
 
+
+    public User() {
+    }
 
     public Long getUserId() {
         return userId;
@@ -52,28 +49,21 @@ public class User {
         this.userId = userId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastName() {
-        return lastName;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public ArrayList<Comment> getCommentHistory() {
-        return commentHistory;
-    }
-
-    public ArrayList<Long> getUploadHistory() {
-        return uploadHistory;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDate getDateCreated() {
@@ -84,13 +74,11 @@ public class User {
         this.dateCreated = dateCreated;
     }
 
-    public void setCommentHistory(ArrayList<Comment> commentHistory) {
-        this.commentHistory = commentHistory;
+    public Boolean getIsConnected() {
+        return isConnected;
     }
 
-    public void setUploadHistory(ArrayList<Long> uploadHistory) {
-        this.uploadHistory = uploadHistory;
+    public void setIsConnected(Boolean connected) {
+        isConnected = connected;
     }
-
-
 }

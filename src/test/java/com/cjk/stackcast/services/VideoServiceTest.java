@@ -134,7 +134,9 @@ public class VideoServiceTest {
     @DisplayName("Test generate file name")
     public void generateFileNameTest(){
         String original = "test String ";
-        String afterGenerate = videoService.generateFileName(original);
+        BasicVideo basicVideo = new BasicVideo();
+        basicVideo.setVideoName(original);
+        String afterGenerate = videoService.generateFileName(basicVideo.getVideoName());
         assertNotEquals(original,afterGenerate);
     }
 }

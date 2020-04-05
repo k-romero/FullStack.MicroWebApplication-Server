@@ -58,8 +58,6 @@ public class VideoService {
 
     public boolean delete(Long videoId) throws Exception {
         //TODO resolve delete from s3 bucket per "key"(filename)
-//        Video vid = repo.findVideoByVideoId(videoId);
-//        awsS3.deleteFile(vid.getVideoName());
         return repo.deleteVideoByVideoId(videoId);
     }
 

@@ -10,6 +10,20 @@ public class UserTest {
 
     User testUser = new User("BobSmith");
 
+    @Test
+    void getUserId(){
+        Long expected = 1L;
+        Long actual = testUser.getUserId();
+        assertNotEquals(expected,actual);
+    }
+
+    @Test
+    void setUserId(){
+        Long expected = 1L;
+        testUser.setUserId(expected);
+        Long actual = testUser.getUserId();
+        assertEquals(expected,actual);
+    }
 
     @Test
     void getPasswordTest() {
@@ -27,14 +41,14 @@ public class UserTest {
     }
 
     @Test
-    void getFirstNameTest() {
+    void getUserNameTest() {
         String expected = "BobSmith";
         String actual = testUser.getUserName();
         assertEquals(expected,actual);
     }
 
     @Test
-    void setFirstNameTest() {
+    void setUserNameTest() {
         String expected = "JeffTheGreat";
         testUser.setUserName(expected);
         String actual = testUser.getUserName();
@@ -50,8 +64,10 @@ public class UserTest {
 
     @Test
     void setDateCreatedTest() {
-        assertNotNull(testUser.getDateCreated());
-        System.out.println(testUser.getDateCreated());
+        LocalDate expected = LocalDate.now();
+        testUser.setDateCreated(expected);
+        LocalDate actual = testUser.getDateCreated();
+        assertEquals(expected,actual);
     }
 
 

@@ -47,7 +47,8 @@ public class UserService {
     }
 
     public Boolean deleteUser(Long userId){
-        return repo.deleteByUserId(userId);
+        repo.deleteById(userId);
+        return true;
     }
 
 

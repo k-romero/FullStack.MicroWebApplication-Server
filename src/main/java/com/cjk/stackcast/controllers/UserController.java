@@ -51,7 +51,7 @@ public class UserController {
        return new ResponseEntity<>(service.updateUserName(userId,userName),HttpStatus.OK);
     }
 
-    @PutMapping("/updatePw{userId}")
+    @PutMapping("/updatePw/{userId}")
     public ResponseEntity<User> updatePassWord(@PathVariable Long userId, @RequestParam String passWord){
         return new ResponseEntity<>(service.updatePassword(userId,passWord),HttpStatus.OK);
     }

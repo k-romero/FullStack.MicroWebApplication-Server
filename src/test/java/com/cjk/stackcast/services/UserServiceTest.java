@@ -150,4 +150,20 @@ public class UserServiceTest {
         Assertions.assertFalse(actual);
     }
 
+    @Test
+    @DisplayName("Test delete User success")
+    public void deleteUserTest(){
+        // Set up mock object and repository
+        User mockUser = new User("testUserName", "testPassWord");
+        doReturn(mockUser).when(userRepository).save(mockUser);
+        doReturn(mockUser).when(userRepository).getOne(1L);
+
+        // Execute call
+        Boolean actual =  userService.deleteUser(1L);
+
+        // Assert PassWord updated
+        Assertions.assertTrue(actual);
+    }
+
+
 }

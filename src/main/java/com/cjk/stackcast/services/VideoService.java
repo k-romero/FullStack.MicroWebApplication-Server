@@ -32,9 +32,7 @@ public class VideoService {
     private AwsS3Configuration config;
 
     public Optional<Video> show(Long videoId){
-        if(repo.findById(videoId).isPresent()){
             return Optional.of(repo.findVideoByVideoId(videoId));
-        } else throw new NullPointerException();
     }
 
     public Iterable<Video> showAll(){

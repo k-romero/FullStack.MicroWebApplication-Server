@@ -1,19 +1,14 @@
 package com.cjk.stackcast.models;
 
-import com.cjk.stackcast.models.comment.Comment;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class UserTest {
 
-    User testUser = new User("Bob","Smith");
+    User testUser = new User("BobSmith");
 
 
     @Test
@@ -33,31 +28,16 @@ public class UserTest {
 
     @Test
     void getFirstNameTest() {
-        String expected = "Bob";
-        String actual = testUser.getFirstName();
+        String expected = "BobSmith";
+        String actual = testUser.getUserName();
         assertEquals(expected,actual);
     }
 
     @Test
     void setFirstNameTest() {
-        String expected = "Chris";
-        testUser.setFirstName(expected);
-        String actual = testUser.getFirstName();
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    void getLastNameTest() {
-        String expected = "Smith";
-        String actual = testUser.getLastName();
-        assertEquals(expected,actual);
-    }
-
-    @Test
-    void setLastNameTest() {
-        String expected = "Joe";
-        testUser.setLastName(expected);
-        String actual = testUser.getLastName();
+        String expected = "JeffTheGreat";
+        testUser.setUserName(expected);
+        String actual = testUser.getUserName();
         assertEquals(expected,actual);
     }
 

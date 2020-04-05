@@ -1,6 +1,9 @@
 package com.cjk.stackcast.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 
@@ -12,15 +15,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
-    private String firstName;
-    private String lastName;
+    @NotEmpty(message = "UserName may not be empty")
+    @Size(min=4, max=20)
+    private String userName;
+
+    @NotEmpty(message = "Password may not be empty")
+    @Size(min=6, max=20)
     private String password;
-    private LocalDate dateCreated;
+    private LocalDate dateCreated = LocalDate.now();
     private Boolean isConnected = false;
 
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String userName) {
+        this.userName = userName;
         this.password = "";
         this.dateCreated = LocalDate.now();
         this.isConnected = false;
@@ -38,21 +44,14 @@ public class User {
         this.userId = userId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getPassword() {
         return password;
@@ -70,11 +69,11 @@ public class User {
         this.dateCreated = dateCreated;
     }
 
-    public Boolean getConnected() {
+    public Boolean getIsConnected() {
         return isConnected;
     }
 
-    public void setConnected(Boolean connected) {
+    public void setIsConnected(Boolean connected) {
         isConnected = connected;
     }
 }

@@ -36,6 +36,9 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<User> create(@RequestBody User user){
+
+        //TODO create validation forms to check user credentials are long enough
+
         User newUser = this.service.create(user);
         try {
             return ResponseEntity

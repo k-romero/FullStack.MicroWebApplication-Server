@@ -29,7 +29,12 @@ public class User {
         this.userName = userName;
         this.password = "";
         this.dateCreated = LocalDate.now();
-        this.isConnected = false;
+    }
+
+    public User(String userName,String password) {
+        this.userName = userName;
+        this.password = password;
+        this.dateCreated = LocalDate.now();
     }
 
 

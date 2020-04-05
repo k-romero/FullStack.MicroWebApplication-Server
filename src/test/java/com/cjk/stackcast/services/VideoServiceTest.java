@@ -1,12 +1,8 @@
 package com.cjk.stackcast.services;
 
-import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.models.video.BasicVideo;
 import com.cjk.stackcast.models.video.Video;
-import com.cjk.stackcast.repositories.UserRepository;
 import com.cjk.stackcast.repositories.VideoRepository;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

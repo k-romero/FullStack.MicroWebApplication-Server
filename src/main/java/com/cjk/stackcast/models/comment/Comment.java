@@ -27,6 +27,14 @@ public abstract class Comment {
         this.userId = userId;
         this.comment = comment;
     }
+    public Comment(Long videoId , String comment){
+        this.videoId = videoId;
+        this.userId = Long.valueOf(0000);
+        this.comment = comment;
+    }
+
+
+
     public Long getCommentId() {
         return commentId;
     }

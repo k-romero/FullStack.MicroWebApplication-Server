@@ -1,6 +1,5 @@
 package com.cjk.stackcast.services;
 
-import com.cjk.stackcast.controllers.AwsS3Controller;
 import com.cjk.stackcast.models.comment.BasicComment;
 import com.cjk.stackcast.models.comment.Comment;
 import com.cjk.stackcast.repositories.CommentRepository;
@@ -14,7 +13,7 @@ public class CommentService {
 
     @Autowired
     private CommentRepository comentRopo;
-    @Autowired
-    private AwsS3Controller awsS3Controller;
+
+
 
 }

@@ -1,6 +1,9 @@
 package com.cjk.stackcast.models.video;
 
+import com.cjk.stackcast.models.comment.Comment;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

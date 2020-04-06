@@ -10,14 +10,6 @@ public class BasicVideo extends Video{
     public BasicVideo() {
     }
 
-    public BasicVideo(String videoName){
-        super(videoName);
-    }
-
-    public BasicVideo(Long videoId, String videoName){
-        super(videoId,videoName);
-    }
-
     public BasicVideo(String videoName, String videoPath, String videoType){
         super(videoName,videoPath,videoType);
     }

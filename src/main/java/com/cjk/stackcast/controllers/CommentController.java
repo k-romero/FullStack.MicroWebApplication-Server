@@ -18,7 +18,13 @@ public class CommentController {
     @Autowired
     private CommentService service;
 
+    //********************************************************************  Show All   ******************
+    @GetMapping("/show")
+    public ResponseEntity<Iterable<Comment>> showAll(){
+        return new ResponseEntity<>(service.showAll() , HttpStatus.OK);
+    }
 
+    //********************************************************************  Create   ********************
     @PostMapping("/create")
     public ResponseEntity<Comment> create(@RequestBody Comment comment){
 
@@ -32,16 +38,15 @@ public class CommentController {
         }
 
     }
-
-    @GetMapping("/show")
-    public ResponseEntity<Iterable<Comment>> showAll(){
-        return new ResponseEntity<>(service.showAll() , HttpStatus.OK);
+    //********************************************************************  Remove   ******************
+    @DeleteMapping(value ="/delete/{pollId}")
+    public ResponseEntity<Boolean> deleteComment(@PathVariable Long commentId) {
+        return new ResponseEntity<>(service.deleteComment(commentId) , HttpStatus.OK);
     }
 
+    //********************************************************************  Remove   ******************
     @GetMapping
     public String findComentsByVideoId(@RequestParam Long videoId){
         return "here";
     }
-
-
 }

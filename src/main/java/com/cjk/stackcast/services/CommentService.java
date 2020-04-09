@@ -15,12 +15,20 @@ public class CommentService {
     @Autowired
     private CommentRepository comentRopo;
 
-    public Comment create(Comment comment){
-        return comentRopo.save(comment);
-    }
     public Iterable<Comment> showAll(){
         return comentRopo.findAll();
     }
+    public Comment create(Comment comment){
+        return comentRopo.save(comment);
+    }
+    public Boolean deleteComment(Long commentId){
+        comentRopo.deleteById(commentId);
+        return true;
+    }
+    public Iterable<Comment> findByVideoId(){
+        return null;
+    }
+
 
 
 

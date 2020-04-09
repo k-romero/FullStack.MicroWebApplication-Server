@@ -34,7 +34,6 @@ public abstract class Comment {
     }
 
 
-
     public Long getCommentId() {
         return commentId;
     }

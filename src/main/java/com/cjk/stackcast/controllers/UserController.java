@@ -17,7 +17,6 @@ public class UserController {
     @Autowired
     UserService service;
 
-
     @GetMapping("/show/{id}")
     public ResponseEntity<?> show(@PathVariable Long id){
         return this.service.showUser(id)

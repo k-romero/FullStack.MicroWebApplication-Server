@@ -14,16 +14,20 @@ public abstract class Comment {
 
 
     public Comment(){
+        this.commentId = null;
+        this.videoId = null;
+        this.userId = null;
+        this.comment = null;
 
     }
     public Comment(Long commentId , Long videoId , Long userId , String comment){
         this.commentId = commentId;
-        this.videoId = commentId;
+        this.videoId = videoId;
         this.userId = userId;
         this.comment = comment;
     }
     public Comment(Long videoId , Long userId , String comment){
-        this.videoId = commentId;
+        this.videoId = videoId;
         this.userId = userId;
         this.comment = comment;
     }

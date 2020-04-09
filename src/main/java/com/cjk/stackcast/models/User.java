@@ -56,7 +56,6 @@ public class User {
         this.userName = userName;
     }
 
-
     public String getPassword() {
         return password;
     }

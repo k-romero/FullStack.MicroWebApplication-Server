@@ -1,8 +1,7 @@
 package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
-import com.cjk.stackcast.models.video.BasicVideo;
-import com.cjk.stackcast.models.video.Video;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,55 +26,57 @@ import java.util.Optional;
 public class VideoService {
 
     @Autowired
-    private VideoRepository repo;
-    @Autowired
     private AwsS3Configuration config;
 
+    @Autowired
+    private VideoRepository repo;
+
     public Optional<Video> show(Long videoId){
-            return Optional.of(repo.findVideoByVideoId(videoId));
+            return repo.findById(videoId);
     }
 
     public Iterable<Video> showAll(){
         return repo.findAll();
     }
 
-
-    public BasicVideo createBasicVideo(BasicVideo basicVideo){
+    public Video createVideo(Video basicVideo){
         return repo.save(basicVideo);
     }
 
-    public BasicVideo saveBasicVideo(String videoName, MultipartFile multipartFile) throws Exception{
+    public Video saveVideo(String videoName, MultipartFile multipartFile) throws Exception{
         String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
         File file = convertMultiPartFile(multipartFile);
-        BasicVideo video = new BasicVideo(videoName,multipartFile.getContentType());
+        Video video = new Video(videoName,multipartFile.getContentType());
         String fileName = generateFileName(file.getName());
         String fileUrl = endPointUrl + "/" + fileName;
         video.setVideoPath(fileUrl);
+
         if(uploadFile(file,fileName).isSuccessful()){
-           return createBasicVideo(video);
+           return createVideo(video);
         } else
             return null;
     }
 
     public boolean delete(Long videoId) throws Exception {
         //TODO resolve delete from s3 bucket per "key"(filename)
-        return repo.deleteVideoByVideoId(videoId);
+        repo.deleteById(videoId);
+        return true;
     }
 
-    public BasicVideo incrementVideoViews(Long videoId){
-        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+    public Video incrementVideoViews(Long videoId){
+        Video video = repo.getOne(videoId);
         video.setVideoViews(video.getVideoViews() + 1);
         return repo.save(video);
     }
 
-    public BasicVideo updateVideoName(Long videoId, String newName){
-        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+    public Video updateVideoName(Long videoId, String newName){
+        Video video = repo.getOne(videoId);
         video.setVideoName(newName);
         return repo.save(video);
     }
 
-    public BasicVideo updateVideoPath(Long videoId, String newPath){
-        BasicVideo video = (BasicVideo) repo.findVideoByVideoId(videoId);
+    public Video updateVideoPath(Long videoId, String newPath){
+        Video video = repo.getOne(videoId);
         video.setVideoPath(newPath);
         return repo.save(video);
     }
@@ -92,8 +93,7 @@ public class VideoService {
         return new Date().getTime() + "-" + fileName.replace(" ", "_");
     }
 
-    public SdkHttpResponse uploadFile(File file, String fileName) throws S3Exception,
-            AwsServiceException, SdkClientException, URISyntaxException,FileNotFoundException {
+    public SdkHttpResponse uploadFile(File file, String fileName) throws S3Exception, AwsServiceException, SdkClientException, URISyntaxException,FileNotFoundException {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(config.getBucket()).key(fileName)
                 .acl(ObjectCannedACL.PUBLIC_READ_WRITE)

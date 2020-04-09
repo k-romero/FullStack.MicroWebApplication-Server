@@ -1,7 +1,6 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.video.BasicVideo;
-import com.cjk.stackcast.models.video.Video;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,12 +36,12 @@ public class VideoControllerTest {
     @DisplayName("Get /videos/showvids/1 - Found")
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
-        Video mockVideo = new BasicVideo("Test Video","https://testPath.com/test","video/mp4");
-        doReturn(mockVideo).when(videoService).createBasicVideo((BasicVideo) mockVideo);
+        Video mockVideo = new Video("Test Video","https://testPath.com/test","video/mp4");
+        doReturn(mockVideo).when(videoService).createVideo( mockVideo);
         doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
 
         //Execute the Get request
-        mockMvc.perform(get("/zc-video-app/videos/showvids/{id}",1))
+        mockMvc.perform(get("/zc-video-app/videos/show/{id}",1))
 
                 // Validate the response code and content type
                 .andExpect(status().isOk())
@@ -61,10 +61,20 @@ public class VideoControllerTest {
         doReturn(Optional.empty()).when(videoService).show(1L);
 
         //Execute the GET request
-        mockMvc.perform(get("/zc-video-app/videos/showvids/{id}",1))
+        mockMvc.perform(get("/zc-video-app/videos/show/{id}",1))
 
                 //Validate that we get a 404 Not Found
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("PUT /videos/updateName/{id}")
+    void testUpdateName() throws Exception{
+        Video postVideo = new Video("Test Video","https://testPath.com/test","video/mp4");
+        Video mockVideo = new Video(1L,"Test Video","https://testPath.com/test","video/mp4");
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(mockVideo).when(videoService).createVideo(any());
+
     }
 
 //    @Test
@@ -92,4 +102,5 @@ public class VideoControllerTest {
 //                .andExpect(jsonPath("$.videoType",is("video/mp4")))
 //                .andExpect(jsonPath("$.videoViews",is(0)));
 //    }
+
 }

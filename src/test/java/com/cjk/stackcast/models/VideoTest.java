@@ -1,4 +1,4 @@
-package com.cjk.stackcast.models.video;
+package com.cjk.stackcast.models;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BasicVideoTest {
+class VideoTest {
 
-    BasicVideo testVideo;
+    Video testVideo;
 
     @BeforeEach
     void setUp() {
-        testVideo = new BasicVideo();
+        testVideo = new Video();
     }
 
     @AfterEach
@@ -86,6 +86,19 @@ class BasicVideoTest {
         Integer expected = 1;
         testVideo.setVideoViews(1);
         Integer actual = testVideo.getVideoViews();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void getUserId() {
+        assertNull(testVideo.getUserId());
+    }
+
+    @Test
+    void setUserId() {
+        Long expected = 1L;
+        testVideo.setUserId(1L);
+        Long actual = testVideo.getUserId();
         assertEquals(expected,actual);
     }
 }

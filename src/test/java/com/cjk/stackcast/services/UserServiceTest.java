@@ -1,7 +1,6 @@
 package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.models.User;
-import com.cjk.stackcast.models.video.BasicVideo;
 import com.cjk.stackcast.repositories.UserRepository;
 
 import org.junit.jupiter.api.Assertions;

@@ -1,6 +1,9 @@
 package com.cjk.stackcast.models.video;
 
+import com.cjk.stackcast.models.comment.Comment;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -31,6 +34,9 @@ public abstract class Video {
     }
 
     public Video() {
+    }
+
+    public Video(Long videoId, String videoName, String videoPath, String videoType) {
     }
 
     public Long getVideoId() {

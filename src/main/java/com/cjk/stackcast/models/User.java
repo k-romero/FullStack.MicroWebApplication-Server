@@ -2,18 +2,19 @@ package com.cjk.stackcast.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "Users")
+@Table(name = "User")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long id;
 
     @NotEmpty(message = "UserName may not be empty")
     @Size(min=4, max=20)
@@ -25,28 +26,40 @@ public class User {
     private LocalDate dateCreated = LocalDate.now();
     private Boolean isConnected = false;
 
+    @OneToMany
+    private List<Video> userVideos;
+
     public User(String userName) {
         this.userName = userName;
         this.password = "";
         this.dateCreated = LocalDate.now();
+        this.userVideos = new ArrayList<>();
     }
 
     public User(String userName,String password) {
         this.userName = userName;
         this.password = password;
         this.dateCreated = LocalDate.now();
+        this.userVideos = new ArrayList<>();
     }
-
 
     public User() {
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Video> getUserVideos() {
+        return userVideos;
+    }
+
+    public void setUserVideos(List<Video> userVideos) {
+        this.userVideos = userVideos;
     }
 
     public String getUserName() {
@@ -56,7 +69,6 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
 
     public String getPassword() {
         return password;
@@ -81,4 +93,6 @@ public class User {
     public void setIsConnected(Boolean connected) {
         isConnected = connected;
     }
+
+
 }

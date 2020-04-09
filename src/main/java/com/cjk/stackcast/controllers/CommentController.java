@@ -1,9 +1,7 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.comment.BasicComment;
-import com.cjk.stackcast.models.comment.Comment;
+import com.cjk.stackcast.models.Comment;
 import com.cjk.stackcast.services.CommentService;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +26,9 @@ public class CommentController {
 
     //********************************************************************  Create   ********************
     @PostMapping("/create")
-    public ResponseEntity<BasicComment> create(@RequestBody BasicComment comment){
+    public ResponseEntity<Comment> create(@RequestBody Comment comment){
 
-        BasicComment newComment = this.service.create(comment);
+        Comment newComment = this.service.create(comment);
         try {
             return ResponseEntity
                     .created( new URI("/create" + newComment.getCommentId()))
@@ -48,7 +46,7 @@ public class CommentController {
 
     //********************************************************************  Find By Video ID   ***********
     @GetMapping("/findByVideoId/{videoId}")
-    public ResponseEntity<List<String>> findComentsByVideoId(@PathVariable Long videoId){
+    public ResponseEntity<List<String>> findCommentsByVideoId(@PathVariable Long videoId){
         return new ResponseEntity<>(service.findByVideoId(videoId) , HttpStatus.OK);
     }
 }

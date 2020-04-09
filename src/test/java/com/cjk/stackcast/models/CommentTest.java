@@ -1,19 +1,18 @@
-package com.cjk.stackcast.models.comment;
+package com.cjk.stackcast.models;
 
+import com.cjk.stackcast.models.Comment;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+public class CommentTest {
 
-public class BasicCommentTest {
-
-    BasicComment comment;
+    Comment comment;
 
     @Before
     public void setUp() throws Exception {
-        comment = new BasicComment();
+        comment = new Comment();
     }
 
     @After
@@ -25,10 +24,12 @@ public class BasicCommentTest {
     public void instanceOfComment(){
         Assert.assertTrue(comment instanceof Comment);
     }
+
     @Test
     public void nullaryConstructor(){
         Assert.assertNull(comment.getComment());
     }
+
     @Test
     public void constructorWithThreeParams(){
 
@@ -36,7 +37,7 @@ public class BasicCommentTest {
         Long userId = Long.valueOf(0000);
         String actualComment = "Comment for testing";
 
-        comment = new BasicComment(videoId , userId , actualComment);
+        comment = new Comment(videoId , userId , actualComment);
 
         Assert.assertEquals(videoId , comment.getVideoId());
         Assert.assertEquals(userId , comment.getUserId());
@@ -47,7 +48,7 @@ public class BasicCommentTest {
         Long videoId = Long.valueOf(1001);
         String actualComment = "Comment for testing";
 
-        comment = new BasicComment(videoId , actualComment);
+        comment = new Comment(videoId , actualComment);
 
         Assert.assertEquals(videoId , comment.getVideoId());
         Assert.assertEquals(actualComment , comment.getComment());

@@ -1,15 +1,9 @@
-package com.cjk.stackcast.models.video;
-
-import com.cjk.stackcast.models.comment.Comment;
+package com.cjk.stackcast.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "discriminatorColumn")
-@Table(name="Video")
-public abstract class Video {
+public class Video {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +13,18 @@ public abstract class Video {
     private String videoType;
     private Integer videoViews;
 
+    @ManyToOne
+    private User user;
+
     public Video(String videoName, String videoPath, String videoType) {
+        this.videoName = videoName;
+        this.videoPath = videoPath;
+        this.videoType = videoType;
+        videoViews = 0;
+    }
+
+    public Video(Long videoId,String videoName, String videoPath, String videoType) {
+        this.videoId = videoId;
         this.videoName = videoName;
         this.videoPath = videoPath;
         this.videoType = videoType;
@@ -34,9 +39,6 @@ public abstract class Video {
     }
 
     public Video() {
-    }
-
-    public Video(Long videoId, String videoName, String videoPath, String videoType) {
     }
 
     public Long getVideoId() {
@@ -77,5 +79,13 @@ public abstract class Video {
 
     public void setVideoViews(Integer videoViews) {
         this.videoViews = videoViews;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

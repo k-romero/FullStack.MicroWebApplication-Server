@@ -17,6 +17,10 @@ public class UserService {
         return repo.findById(id);
     }
 
+    public User getUser(Long id){
+        return repo.getOne(id);
+    }
+
     public Iterable<User> showAll(){
         return repo.findAll();
     }
@@ -50,7 +54,5 @@ public class UserService {
         repo.deleteById(userId);
         return true;
     }
-
-
 
 }

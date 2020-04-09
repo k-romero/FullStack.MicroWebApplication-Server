@@ -1,12 +1,7 @@
 package com.cjk.stackcast.services;
 
-import com.cjk.stackcast.models.User;
-import com.cjk.stackcast.models.video.BasicVideo;
-import com.cjk.stackcast.models.video.Video;
-import com.cjk.stackcast.repositories.UserRepository;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +19,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -43,8 +38,8 @@ public class VideoServiceTest {
     public void testFindByIdSuccess(){
 
         // Set up mock object and repository
-        BasicVideo mockVideo = new BasicVideo("Test Video","https://testPath.com/test","video/mp4");
-        doReturn(mockVideo).when(videoRepository).findVideoByVideoId(1L);
+        Video mockVideo = new Video("Test Video","https://testPath.com/test","video/mp4");
+        doReturn(Optional.of(mockVideo)).when(videoRepository).findById(1L);
 
         // Execute call
         Optional<Video> returnVideo = videoService.show(1L);
@@ -58,8 +53,8 @@ public class VideoServiceTest {
     @DisplayName("Test findAll")
     public void testFindAll(){
         // Set up mock object and repository
-        BasicVideo mockVideo1 = new BasicVideo("testVideoName1","video/mp4");
-        BasicVideo mockVideo2 = new BasicVideo("testVideoName1","video/mp4");
+        Video mockVideo1 = new Video("testVideoName1","video/mp4");
+        Video mockVideo2 = new Video("testVideoName1","video/mp4");
         doReturn(Arrays.asList(mockVideo1,mockVideo2)).when(videoRepository).findAll();
 
         // Execute call
@@ -73,11 +68,11 @@ public class VideoServiceTest {
     @DisplayName("Test save Video")
     public void testSave(){
         // Set up mock object and repository
-        BasicVideo mockVideo1 = new BasicVideo("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
         doReturn(mockVideo1).when(videoRepository).save(any());
 
         // Execute call
-        BasicVideo returnVideo = videoService.createBasicVideo(mockVideo1);
+        Video returnVideo = videoService.createVideo(mockVideo1);
 
         Assertions.assertNotNull(returnVideo, "The saved video should not be null");
     }
@@ -86,9 +81,9 @@ public class VideoServiceTest {
     @DisplayName("Test increment Video views")
     public void testIncrementViews(){
         // Set up mock object and repository
-        BasicVideo mockVideo1 = new BasicVideo("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
         doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
-        doReturn(mockVideo1).when(videoRepository).findVideoByVideoId(1L);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
         Integer expected = 1;
 
         // Execute call
@@ -102,9 +97,9 @@ public class VideoServiceTest {
     @DisplayName("Test update Video name")
     public void updateVideoName(){
         // Set up mock object and repository
-        BasicVideo mockVideo1 = new BasicVideo("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
         doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
-        doReturn(mockVideo1).when(videoRepository).findVideoByVideoId(1L);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
         String expected = "updatedName";
 
         // Execute call
@@ -118,9 +113,9 @@ public class VideoServiceTest {
     @DisplayName("Test update Video path")
     public void updateVideoPath(){
         // Set up mock object and repository
-        BasicVideo mockVideo1 = new BasicVideo("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
         doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
-        doReturn(mockVideo1).when(videoRepository).findVideoByVideoId(1L);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
         String expected = "https://UpdatedtestPath.com/test1";
 
         // Execute call
@@ -134,9 +129,9 @@ public class VideoServiceTest {
     @DisplayName("Test generate file name")
     public void generateFileNameTest(){
         String original = "test String ";
-        BasicVideo basicVideo = new BasicVideo();
-        basicVideo.setVideoName(original);
-        String afterGenerate = videoService.generateFileName(basicVideo.getVideoName());
+        Video video = new Video();
+        video.setVideoName(original);
+        String afterGenerate = videoService.generateFileName(video.getVideoName());
         assertNotEquals(original,afterGenerate);
     }
 }

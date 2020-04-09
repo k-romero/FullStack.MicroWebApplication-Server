@@ -1,6 +1,6 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.video.Video;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ public class VideoController {
     @Autowired
     private VideoService service;
 
-    @GetMapping("/showvids/{id}")
+    @GetMapping("/show/{id}")
     public ResponseEntity<?> findVideoById(@PathVariable Long id){
         return this.service.show(id)
                 .map(video -> ResponseEntity
@@ -27,18 +27,33 @@ public class VideoController {
                         .build());
     }
 
-    @GetMapping("/showvids")
+    @GetMapping("/show")
     public ResponseEntity<Iterable<Video>> showVideos() {
         return new ResponseEntity<>(service.showAll(),HttpStatus.OK);
     }
 
+    @GetMapping("/showUserVideos/{userId}")
+    public ResponseEntity<Iterable<Video>> showVideos(@PathVariable Long userId) {
+        return new ResponseEntity<>(service.showAllUserVids(userId),HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Video> createBasicVideo(@RequestBody Video video) throws Exception {
+        return new ResponseEntity<>(service.createVideo(video),HttpStatus.CREATED);
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
-        Video tempVideo = service.saveBasicVideo(videoName,multipartFile);
+        Video tempVideo = service.saveVideo(videoName,multipartFile);
         if(tempVideo != null){
-            return new ResponseEntity<>(tempVideo,HttpStatus.OK);
+            return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/setUser/{videoId}")
+    public ResponseEntity<Video> setUser(@PathVariable Long videoId, @RequestParam Long userId) {
+        return new ResponseEntity<>(service.setUser(videoId,userId), HttpStatus.OK);
     }
 
     @PutMapping("/updateName/{id}")

@@ -1,9 +1,9 @@
-package com.cjk.stackcast.models.comment;
+package com.cjk.stackcast.models;
 
 import javax.persistence.*;
 
 @Entity
-public abstract class Comment {
+public class Comment {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)

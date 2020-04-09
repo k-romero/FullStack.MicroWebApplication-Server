@@ -90,15 +90,15 @@ class VideoTest {
     }
 
     @Test
-    void getUserId() {
-        assertNull(testVideo.getUserId());
+    void getUser() {
+        assertNull(testVideo.getUser());
     }
 
     @Test
-    void setUserId() {
-        Long expected = 1L;
-        testVideo.setUserId(1L);
-        Long actual = testVideo.getUserId();
+    void setUser() {
+        User expected = new User();
+        testVideo.setUser(expected);
+        User actual = testVideo.getUser();
         assertEquals(expected,actual);
     }
 }

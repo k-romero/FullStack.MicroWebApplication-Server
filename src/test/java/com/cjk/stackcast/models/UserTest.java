@@ -3,6 +3,7 @@ package com.cjk.stackcast.models;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -13,15 +14,15 @@ public class UserTest {
     @Test
     void getUserId(){
         Long expected = 1L;
-        Long actual = testUser.getUserId();
+        Long actual = testUser.getId();
         assertNotEquals(expected,actual);
     }
 
     @Test
     void setUserId(){
         Long expected = 1L;
-        testUser.setUserId(expected);
-        Long actual = testUser.getUserId();
+        testUser.setId(expected);
+        Long actual = testUser.getId();
         assertEquals(expected,actual);
     }
 
@@ -67,6 +68,20 @@ public class UserTest {
         LocalDate expected = LocalDate.now();
         testUser.setDateCreated(expected);
         LocalDate actual = testUser.getDateCreated();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void userVideosTest() {
+        Video video1 = new Video();
+        Video video2 = new Video();
+        Video video3 = new Video();
+        Video[] videos = new Video[]{video1,video2,video3};
+        testUser.setUserVideos(Arrays.asList(videos));
+
+        int expected = 3;
+        int actual = testUser.getUserVideos().size();
+
         assertEquals(expected,actual);
     }
 

@@ -1,6 +1,7 @@
 package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
+import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,19 @@ public class VideoService {
     @Autowired
     private VideoRepository repo;
 
+    @Autowired
+    private UserService userService;
+
     public Optional<Video> show(Long videoId){
             return repo.findById(videoId);
     }
 
     public Iterable<Video> showAll(){
         return repo.findAll();
+    }
+
+    public Iterable<Video> showAllUserVids(Long userId){
+        return repo.findByUser_Id(userId);
     }
 
     public Video createVideo(Video basicVideo){
@@ -61,6 +69,13 @@ public class VideoService {
         //TODO resolve delete from s3 bucket per "key"(filename)
         repo.deleteById(videoId);
         return true;
+    }
+
+    public Video setUser(Long videoId, Long userId){
+        Video video = repo.getOne(videoId);
+        User user = userService.getUser(userId);
+        video.setUser(user);
+        return repo.save(video);
     }
 
     public Video incrementVideoViews(Long videoId){

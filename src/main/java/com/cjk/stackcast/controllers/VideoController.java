@@ -32,6 +32,11 @@ public class VideoController {
         return new ResponseEntity<>(service.showAll(),HttpStatus.OK);
     }
 
+    @GetMapping("/showUserVideos/{userId}")
+    public ResponseEntity<Iterable<Video>> showVideos(@PathVariable Long userId) {
+        return new ResponseEntity<>(service.showAllUserVids(userId),HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Video> createBasicVideo(@RequestBody Video video) throws Exception {
         return new ResponseEntity<>(service.createVideo(video),HttpStatus.CREATED);
@@ -44,6 +49,11 @@ public class VideoController {
             return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/setUser/{videoId}")
+    public ResponseEntity<Video> setUser(@PathVariable Long videoId, @RequestParam Long userId) {
+        return new ResponseEntity<>(service.setUser(videoId,userId), HttpStatus.OK);
     }
 
     @PutMapping("/updateName/{id}")

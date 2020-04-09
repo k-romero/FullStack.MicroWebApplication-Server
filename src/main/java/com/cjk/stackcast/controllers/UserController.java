@@ -40,7 +40,7 @@ public class UserController {
         User newUser = this.service.create(user);
         try {
             return ResponseEntity
-                    .created(new URI("/create/" + newUser.getUserId()))
+                    .created(new URI("/create/" + newUser.getId()))
                     .body(newUser);
         }catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

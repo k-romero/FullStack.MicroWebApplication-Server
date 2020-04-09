@@ -12,7 +12,9 @@ public class Video {
     private String videoPath;
     private String videoType;
     private Integer videoViews;
-    private Long userId;
+
+    @ManyToOne
+    private User user;
 
     public Video(String videoName, String videoPath, String videoType) {
         this.videoName = videoName;
@@ -79,11 +81,11 @@ public class Video {
         this.videoViews = videoViews;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

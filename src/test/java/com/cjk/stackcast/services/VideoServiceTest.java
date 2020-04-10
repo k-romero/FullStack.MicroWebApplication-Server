@@ -185,8 +185,13 @@ public class VideoServiceTest {
     @Test
     @DisplayName("Test convert MultiPartFile - Produces File")
     public void convertFileTest() throws IOException {
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("mockImageFile","mockImage.png",
-                "image/png", "testImageData".getBytes());
-        assertTrue(videoService.convertMultiPartFile(mockMultipartFile) instanceof File);
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("mockVideoFile","mockVideo.mp4",
+                "video/mp4", "testVideoData".getBytes());
+        String expected = "mockVideo.mp4";
+        File convertedFile = videoService.convertMultiPartFile(mockMultipartFile);
+
+        String actual = convertedFile.getName();
+
+        assertEquals(expected,actual);
     }
 }

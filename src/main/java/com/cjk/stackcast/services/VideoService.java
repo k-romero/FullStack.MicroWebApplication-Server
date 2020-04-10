@@ -20,8 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VideoService {
@@ -50,20 +49,6 @@ public class VideoService {
 
     public Video createVideo(Video basicVideo){
         return repo.save(basicVideo);
-    }
-
-    public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
-        String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
-        File file = convertMultiPartFile(multipartFile);
-        String fileName = generateFileName(file.getName());
-        Video video = new Video(videoName,multipartFile.getContentType(),fileName);
-        String fileUrl = endPointUrl + "/" + fileName;
-        video.setVideoPath(fileUrl);
-
-        if(uploadFile(file,fileName).isSuccessful()){
-           return createVideo(video);
-        } else
-            return null;
     }
 
     public boolean delete(Long videoId){
@@ -99,6 +84,18 @@ public class VideoService {
         return repo.save(video);
     }
 
+    public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
+        File file = convertMultiPartFile(multipartFile);
+        String fileName = generateFileName(file.getName());
+        Video video = new Video(videoName,multipartFile.getContentType(),fileName);
+        String fileUrl = config.getEndPointUrl() + "/" + fileName;
+        video.setVideoPath(fileUrl);
+        if(uploadFile(file,fileName).isSuccessful()){
+            return createVideo(video);
+        } else
+            return null;
+    }
+
     public File convertMultiPartFile(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convertFile);
@@ -117,6 +114,15 @@ public class VideoService {
                 .acl(ObjectCannedACL.PUBLIC_READ_WRITE)
                 .build();
         return config.generateS3Client().putObject(putObjectRequest, RequestBody.fromFile(file)).sdkHttpResponse();
+    }
+
+    public void verifyFileType(String videoName, MultipartFile multipartFile) throws Exception{
+        ArrayList<String> validFileTypes = new ArrayList<>(Arrays.asList("video/mp4","video/mov"));
+        if(validFileTypes.contains(multipartFile.getContentType())){
+            uploadVideo(videoName, multipartFile);
+        } else {
+            throw new InputMismatchException("Invalid file type. Only video files are allowed");
+        }
     }
 
     public SdkHttpResponse deleteFile(String fileName){

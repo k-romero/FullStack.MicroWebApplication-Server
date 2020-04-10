@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,5 +137,23 @@ public class VideoServiceTest {
         video.setVideoName(original);
         String afterGenerate = videoService.generateFileName(video.getVideoName());
         assertNotEquals(original,afterGenerate);
+    }
+
+
+    @Test
+    @DisplayName("Test verify file type - Exception Thrown")
+    public void verifyFileTypeFailTest(){
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("mockImageFile","mockImage.png",
+                "image/png", "testImageData".getBytes());
+        Assertions.assertThrows(InputMismatchException.class,
+                () -> videoService.verifyFileType("testVideoName",mockMultipartFile));
+    }
+
+    @Test
+    @DisplayName("Test convert MultiPartFile - Produces File")
+    public void convertFileTest() throws IOException {
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("mockImageFile","mockImage.png",
+                "image/png", "testImageData".getBytes());
+        assertTrue(videoService.convertMultiPartFile(mockMultipartFile) instanceof File);
     }
 }

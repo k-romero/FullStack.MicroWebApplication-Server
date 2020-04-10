@@ -91,14 +91,27 @@ class VideoTest {
 
     @Test
     void getUser() {
-        assertNull(testVideo.getUser());
+        assertNull(testVideo.getUserId());
     }
 
     @Test
     void setUser() {
-        User expected = new User();
-        testVideo.setUser(expected);
-        User actual = testVideo.getUser();
+        Long expected = 1L;
+        testVideo.setUserId(expected);
+        Long actual = testVideo.getUserId();
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void getVideoKey() {
+        assertNull(testVideo.getOriginalVideoKey());
+    }
+
+    @Test
+    void setVideoKey() {
+        String expected = "video.mp4";
+        testVideo.setOriginalVideoKey(expected);
+        String actual = testVideo.getOriginalVideoKey();
         assertEquals(expected,actual);
     }
 }

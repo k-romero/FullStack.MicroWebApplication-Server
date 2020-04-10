@@ -33,7 +33,7 @@ public class VideoController {
     }
 
     @GetMapping("/showUserVideos/{userId}")
-    public ResponseEntity<Iterable<Video>> showVideos(@PathVariable Long userId) {
+    public ResponseEntity<Iterable<Video>> showUserVideos(@PathVariable Long userId) {
         return new ResponseEntity<>(service.showAllUserVids(userId),HttpStatus.OK);
     }
 
@@ -43,11 +43,12 @@ public class VideoController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<Video> uploadBasicVideo(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
-        Video tempVideo = service.saveVideo(videoName,multipartFile);
+    public ResponseEntity<Video> uploadVideoToCloud(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        Video tempVideo = service.uploadVideo(videoName,multipartFile);
         if(tempVideo != null){
             return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
+
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
@@ -57,6 +58,7 @@ public class VideoController {
     }
 
     @PutMapping("/updateName/{id}")
+    @ResponseBody
     public ResponseEntity<Video> updateVideoName(@RequestParam String videoName, @PathVariable Long id) {
         return new ResponseEntity<>(service.updateVideoName(id,videoName), HttpStatus.OK);
     }
@@ -72,7 +74,7 @@ public class VideoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteVideo(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Boolean> deleteVideo(@PathVariable Long id) {
         return new ResponseEntity<>(service.delete(id),HttpStatus.GONE);
     }
 }

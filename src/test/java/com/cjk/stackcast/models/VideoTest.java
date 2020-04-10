@@ -101,4 +101,17 @@ class VideoTest {
         Long actual = testVideo.getUserId();
         assertEquals(expected,actual);
     }
+
+    @Test
+    void getVideoKey() {
+        assertNull(testVideo.getOriginalVideoKey());
+    }
+
+    @Test
+    void setVideoKey() {
+        String expected = "video.mp4";
+        testVideo.setOriginalVideoKey(expected);
+        String actual = testVideo.getOriginalVideoKey();
+        assertEquals(expected,actual);
+    }
 }

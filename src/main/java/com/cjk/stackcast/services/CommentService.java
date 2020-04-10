@@ -12,8 +12,13 @@ import java.util.List;
 
 public class CommentService {
 
-    @Autowired
+
     private CommentRepository commentRepo;
+
+    @Autowired
+    public CommentService(CommentRepository commentRepo){
+        this.commentRepo = commentRepo;
+    }
 
     public Iterable<Comment> showAll(){
         return commentRepo.findAll();

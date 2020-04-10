@@ -15,8 +15,13 @@ import java.util.List;
 @RequestMapping( value = "zc-video-app/comments")
 public class CommentController {
 
-    @Autowired
+
     private CommentService service;
+
+    @Autowired
+    public CommentController(CommentService service){
+        this.service = service;
+    }
 
     //********************************************************************  Show All   ******************
     @GetMapping("/show")

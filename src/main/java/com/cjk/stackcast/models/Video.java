@@ -17,14 +17,17 @@ public class Video {
     private String videoType;
     @Column(name = "VIDEO_VIEWS")
     private Integer videoViews;
+    @Column(name = "VIDEO_KEY")
+    private String originalVideoKey;
     @Column(name = "USER_ID")
     private Long userId;
 
-    public Video(String videoName, String videoPath, String videoType) {
+    public Video(String videoName, String videoPath) {
         this.videoName = videoName;
         this.videoPath = videoPath;
         this.videoType = videoType;
         videoViews = 0;
+        originalVideoKey = "";
     }
 
     public Video(Long videoId,String videoName, String videoPath, String videoType) {
@@ -33,13 +36,15 @@ public class Video {
         this.videoPath = videoPath;
         this.videoType = videoType;
         videoViews = 0;
+        originalVideoKey = "";
     }
 
-    public Video(String videoName, String videoType) {
+    public Video(String videoName, String videoType, String originalVideoKey) {
         this.videoName = videoName;
-        videoPath = "";
         this.videoType = videoType;
+        this.originalVideoKey = originalVideoKey;
         videoViews = 0;
+        videoPath = "";
     }
 
     public Video() {
@@ -91,5 +96,13 @@ public class Video {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getOriginalVideoKey() {
+        return originalVideoKey;
+    }
+
+    public void setOriginalVideoKey(String originalVideoKey) {
+        this.originalVideoKey = originalVideoKey;
     }
 }

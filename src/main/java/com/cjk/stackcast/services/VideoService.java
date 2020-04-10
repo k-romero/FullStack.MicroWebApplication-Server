@@ -26,12 +26,14 @@ import java.util.Optional;
 @Service
 public class VideoService {
 
-    @Autowired
     private AwsS3Configuration config;
-
-    @Autowired
     private VideoRepository repo;
 
+    @Autowired
+    public VideoService(VideoRepository repo, AwsS3Configuration config){
+        this.repo = repo;
+        this.config = config;
+    }
 
     public Optional<Video> show(Long videoId){
             return repo.findById(videoId);
@@ -53,8 +55,8 @@ public class VideoService {
     public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
         String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
         File file = convertMultiPartFile(multipartFile);
-        Video video = new Video(videoName,multipartFile.getContentType());
         String fileName = generateFileName(file.getName());
+        Video video = new Video(videoName,multipartFile.getContentType(),fileName);
         String fileUrl = endPointUrl + "/" + fileName;
         video.setVideoPath(fileUrl);
 
@@ -64,10 +66,13 @@ public class VideoService {
             return null;
     }
 
-    public boolean delete(Long videoId) throws Exception {
-        //TODO resolve delete from s3 bucket per "key"(filename)
-        repo.deleteById(videoId);
-        return true;
+    public boolean delete(Long videoId){
+        String originalVideoKey = repo.getOne(videoId).getOriginalVideoKey();
+        if(deleteFile(originalVideoKey).isSuccessful()){
+            repo.deleteById(videoId);
+            return true;
+        } else
+            return false;
     }
 
     public Video setUser(Long videoId, Long userId){
@@ -114,10 +119,10 @@ public class VideoService {
         return config.generateS3Client().putObject(putObjectRequest, RequestBody.fromFile(file)).sdkHttpResponse();
     }
 
-    public DeleteObjectResponse deleteFile(String fileName){
+    public SdkHttpResponse deleteFile(String fileName){
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
                 .bucket(config.getBucket()).key(fileName).build();
-        return config.generateS3Client().deleteObject(deleteObjectRequest);
+        return config.generateS3Client().deleteObject(deleteObjectRequest).sdkHttpResponse();
     }
 
 }

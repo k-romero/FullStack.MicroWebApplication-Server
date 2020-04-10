@@ -70,12 +70,37 @@ public class VideoControllerTest {
     @Test
     @DisplayName("PUT /videos/updateName/{id}")
     void testUpdateName() throws Exception{
-        Video postVideo = new Video("Test Video","https://testPath.com/test","video/mp4");
-        Video mockVideo = new Video(1L,"Test Video","https://testPath.com/test","video/mp4");
-        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
-        doReturn(mockVideo).when(videoService).createVideo(any());
+        //Given
+        String newName = "newVideoName";
+        Video putVideo = new Video(1L,newName,"https://testPath.com/test","video/mp4");
+        doReturn(putVideo).when(videoService).updateVideoName(1L,newName);
 
+        //Execute
+        mockMvc.perform(put("/zc-video-app/videos/updateName/{id}",1)
+                            .param("videoName",newName))
+
+                            //Validate
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$.videoName",is(newName)));
     }
+
+    @Test
+    @DisplayName("PUT /videos/incrementViews/{id}")
+    void testIncrementViews() throws Exception{
+        //Given
+        Integer newViewCount = 1;
+        Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        doReturn(putVideo).when(videoService).incrementVideoViews(1L);
+
+        //Execute
+        mockMvc.perform(put("/zc-video-app/videos/incrementViews/{id}",1))
+
+                //Validate
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.videoViews",is(newViewCount)));
+    }
+
+
 
 //    @Test
 //    @DisplayName("Get /videos/upload - Success")

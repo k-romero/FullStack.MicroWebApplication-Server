@@ -1,5 +1,8 @@
 package com.cjk.stackcast.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -13,20 +16,30 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID")
     private Long id;
 
     @NotEmpty(message = "UserName may not be empty")
     @Size(min=4, max=20)
+    @Column(name = "USER_NAME")
     private String userName;
 
     @NotEmpty(message = "Password may not be empty")
     @Size(min=6, max=20)
+    @Column(name = "PASSWORD")
     private String password;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "DATE_CREATED")
     private LocalDate dateCreated = LocalDate.now();
+
+    @Column(name = "IS_CONNECTED")
     private Boolean isConnected = false;
 
     @OneToMany
+    @JoinColumn(name = "USER_ID")
+    @JsonIgnore
     private List<Video> userVideos;
 
     public User(String userName) {

@@ -32,8 +32,6 @@ public class VideoService {
     @Autowired
     private VideoRepository repo;
 
-    @Autowired
-    private UserService userService;
 
     public Optional<Video> show(Long videoId){
             return repo.findById(videoId);
@@ -44,14 +42,15 @@ public class VideoService {
     }
 
     public Iterable<Video> showAllUserVids(Long userId){
-        return repo.findByUser_Id(userId);
+        return repo.findAllByUserId(userId);
     }
+
 
     public Video createVideo(Video basicVideo){
         return repo.save(basicVideo);
     }
 
-    public Video saveVideo(String videoName, MultipartFile multipartFile) throws Exception{
+    public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
         String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
         File file = convertMultiPartFile(multipartFile);
         Video video = new Video(videoName,multipartFile.getContentType());
@@ -73,8 +72,7 @@ public class VideoService {
 
     public Video setUser(Long videoId, Long userId){
         Video video = repo.getOne(videoId);
-        User user = userService.getUser(userId);
-        video.setUser(user);
+        video.setUserId(userId);
         return repo.save(video);
     }
 
@@ -121,13 +119,5 @@ public class VideoService {
                 .bucket(config.getBucket()).key(fileName).build();
         return config.generateS3Client().deleteObject(deleteObjectRequest);
     }
-
-
-
-
-
-
-
-
 
 }

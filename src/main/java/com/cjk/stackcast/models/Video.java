@@ -6,15 +6,19 @@ import javax.persistence.*;
 public class Video {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "VIDEO_ID")
     private Long videoId;
+    @Column(name = "VIDEO_NAME")
     private String videoName;
+    @Column(name = "VIDEO_PATH")
     private String videoPath;
+    @Column(name = "VIDEO_TYPE")
     private String videoType;
+    @Column(name = "VIDEO_VIEWS")
     private Integer videoViews;
-
-    @ManyToOne
-    private User user;
+    @Column(name = "USER_ID")
+    private Long userId;
 
     public Video(String videoName, String videoPath, String videoType) {
         this.videoName = videoName;
@@ -81,11 +85,11 @@ public class Video {
         this.videoViews = videoViews;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

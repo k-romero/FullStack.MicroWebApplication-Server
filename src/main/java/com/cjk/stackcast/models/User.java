@@ -56,6 +56,14 @@ public class User {
         this.userVideos = new ArrayList<>();
     }
 
+    public User(Long id, String userName,String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.dateCreated = LocalDate.now();
+        this.userVideos = new ArrayList<>();
+    }
+
     public User() {
     }
 

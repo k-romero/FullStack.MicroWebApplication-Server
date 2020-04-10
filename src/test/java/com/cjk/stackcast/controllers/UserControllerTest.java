@@ -56,4 +56,17 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.password",is("testPassword")))
                 .andExpect(jsonPath("$.isConnected",is(false)));
     }
+
+    @Test
+    @DisplayName("GET /users/show/1 - Not Found")
+    void testGetUserByIdNotFound() throws Exception {
+        //Setup our mocked service
+        doReturn(Optional.empty()).when(userService).showUser(1L);
+
+        //Execute the GET request
+        mockMvc.perform(get("/zc-video-app/users/show/{id}",1))
+
+                //Validate that we get a 404 Not Found
+                .andExpect(status().isNotFound());
+    }
 }

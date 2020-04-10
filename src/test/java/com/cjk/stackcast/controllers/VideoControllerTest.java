@@ -36,7 +36,7 @@ public class VideoControllerTest {
     @DisplayName("Get /videos/showvids/1 - Found")
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
-        Video mockVideo = new Video("Test Video","https://testPath.com/test","video/mp4");
+        Video mockVideo = new Video(1L,"Test Video","https://testPath.com/test","video/mp4");
         doReturn(mockVideo).when(videoService).createVideo( mockVideo);
         doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
 
@@ -48,6 +48,7 @@ public class VideoControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 // Validate the returned fields
+                .andExpect(jsonPath("$.videoId",is(1)))
                 .andExpect(jsonPath("$.videoName",is("Test Video")))
                 .andExpect(jsonPath("$.videoPath",is("https://testPath.com/test")))
                 .andExpect(jsonPath("$.videoType",is("video/mp4")))
@@ -87,8 +88,10 @@ public class VideoControllerTest {
     @Test
     @DisplayName("PUT /videos/incrementViews/{id}")
     void testIncrementViews() throws Exception{
+
+        //TODO write actual test
         //Given
-        Integer newViewCount = 1;
+        Integer newViewCount = 0;
         Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
         doReturn(putVideo).when(videoService).incrementVideoViews(1L);
 

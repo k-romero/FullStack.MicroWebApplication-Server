@@ -15,10 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -129,6 +126,25 @@ public class VideoServiceTest {
         Assertions.assertEquals(expected,actual);
     }
 
+    @Test
+    @DisplayName("Test getAllUserVideos - Success")
+    public void getUserVideosTest(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video(1L,"testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        Video mockVideo2 = new Video(2L,"testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        mockVideo1.setUserId(1L);
+        mockVideo2.setUserId(1L);
+        Iterable<Video> userVideos = new ArrayList<>(Arrays.asList(mockVideo1,mockVideo2));
+        doReturn(userVideos).when(videoRepository).findAllByUserId(1L);
+
+        Integer expected = 2;
+
+        // Execute call
+        ArrayList<Video> actual = (ArrayList<Video>)videoService.showAllUserVids(1L);
+
+        // Assert name updated
+        Assertions.assertEquals(expected,actual.size());
+    }
 
     @Test
     @DisplayName("Test setUser - Success")

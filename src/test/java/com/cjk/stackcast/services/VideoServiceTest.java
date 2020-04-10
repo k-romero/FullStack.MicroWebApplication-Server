@@ -129,6 +129,23 @@ public class VideoServiceTest {
         Assertions.assertEquals(expected,actual);
     }
 
+
+    @Test
+    @DisplayName("Test setUser - Success")
+    public void setUserTest(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
+        Long expected = 1L;
+
+        // Execute call
+        Long actual =  videoService.setUser(1L,expected).getUserId();
+
+        // Assert name updated
+        Assertions.assertEquals(expected,actual);
+    }
+
     @Test
     @DisplayName("Test generate file name")
     public void generateFileNameTest(){

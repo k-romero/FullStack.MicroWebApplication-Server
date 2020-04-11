@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -102,33 +101,4 @@ public class VideoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.videoViews",is(newViewCount)));
     }
-
-
-
-//    @Test
-//    @DisplayName("Get /videos/upload - Success")
-//    void testCreateBasicVideo() throws Exception{
-//        //Setup mocked video
-//        Video postVideo = new BasicVideo("Test Video","https://testPath.com/test","video/mp4");
-//        Video mockVideo = new BasicVideo(1L,"Test Video","https://testPath.com/test","video/mp4");
-//        MockMultipartFile mockMultipartFile = new MockMultipartFile("user-file","test.txt",
-//                "text/plain", "test data".getBytes());
-//        doReturn(mockVideo).when(videoService).saveBasicVideo("TempString",mockMultipartFile);
-//        doReturn(postVideo).when(videoService).createBasicVideo((BasicVideo) mockVideo);
-//
-//        //Execute the Post request
-//        mockMvc.perform(MockMvcRequestBuilders.multipart("/zc-video-app/videos/upload")
-//                .file("file",mockMultipartFile.getBytes())
-//                .param("videoName","TempVideoName"))
-//
-//                // Validate the response code
-//                .andExpect(status().isCreated())
-//
-//                // Validate the returned fields
-//                .andExpect(jsonPath("$.videoName",is("Test Video")))
-//                .andExpect(jsonPath("$.videoPath",is("https://testPath.com/test")))
-//                .andExpect(jsonPath("$.videoType",is("video/mp4")))
-//                .andExpect(jsonPath("$.videoViews",is(0)));
-//    }
-
 }

@@ -42,6 +42,7 @@ public class User {
     @JsonIgnore
     private List<Video> userVideos;
 
+
     public User(String userName) {
         this.userName = userName;
         this.password = "";

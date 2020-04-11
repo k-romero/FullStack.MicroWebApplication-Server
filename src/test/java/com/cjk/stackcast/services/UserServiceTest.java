@@ -154,7 +154,6 @@ public class UserServiceTest {
     public void deleteUserTest(){
         // Set up mock object and repository
         User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(mockUser);
         doReturn(mockUser).when(userRepository).getOne(1L);
 
         // Execute call

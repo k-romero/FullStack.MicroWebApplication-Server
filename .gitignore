@@ -28,5 +28,5 @@ build/
 .vscode/
 
 ### Application Properties ###
-
+.DS_Store
 

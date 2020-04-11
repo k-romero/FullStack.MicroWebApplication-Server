@@ -102,7 +102,7 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("Post /users/create - Created")
-    void testCreateUsersFound() throws Exception {
+    void testCreateUser() throws Exception {
         //Setup our mocked service
         User mockUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),true);
         User postUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),true);
@@ -114,12 +114,36 @@ public class UserControllerTest {
                 .content(asJsonString(postUser))
                 )
 
-                //Validate that we get a 200
+                //Validate that we get a 201
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string(HttpHeaders.LOCATION,"/create/1"))
 
                 .andExpect(jsonPath("$.userName", is("testUserName")))
+                .andExpect(jsonPath("$.password", is("testPassword")));
+    }
+
+    @Test
+    @DisplayName("Post /users/updateName - Success")
+    void testUpdateUserName() throws Exception {
+        //Setup our mocked service
+        String newUserName = "Kevin";
+        User mockUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),true);
+        User putUser = new User(1L, newUserName, "testPassword", LocalDate.now(),true);
+
+        given(service.showUser(1L)).willReturn(Optional.of(mockUser));
+        given(service.updateUserName(1L,newUserName)).willReturn(putUser);
+        //Execute the Post request
+        mockMvc.perform(put("/zc-video-app/users/updateName/{userId}",1)
+                .param("userName",newUserName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putUser))
+        )
+                //Validate that we get a 200
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.userName", is(newUserName)))
                 .andExpect(jsonPath("$.password", is("testPassword")));
     }
 

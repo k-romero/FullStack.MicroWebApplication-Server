@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -14,8 +15,12 @@ import java.net.URISyntaxException;
 @RequestMapping(value = "/zc-video-app/users")
 public class UserController {
 
+    private UserService service;
+
     @Autowired
-    UserService service;
+    public UserController(UserService service){
+        this.service = service;
+    }
 
     @GetMapping("/show/{id}")
     public ResponseEntity<?> show(@PathVariable Long id){

@@ -10,15 +10,16 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+
+    private UserRepository repo;
+
     @Autowired
-    UserRepository repo;
+    public UserService(UserRepository userRepository){
+        this.repo = userRepository;
+    }
 
     public Optional<User> showUser(Long id){
         return repo.findById(id);
-    }
-
-    public User getUser(Long id){
-        return repo.getOne(id);
     }
 
     public Iterable<User> showAll(){

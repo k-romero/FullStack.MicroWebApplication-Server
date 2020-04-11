@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -30,17 +31,18 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "DATE_CREATED")
     private LocalDate dateCreated = LocalDate.now();
 
     @Column(name = "IS_CONNECTED")
     private Boolean isConnected = false;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     @JsonIgnore
     private List<Video> userVideos;
+
 
     public User(String userName) {
         this.userName = userName;
@@ -62,6 +64,14 @@ public class User {
         this.password = password;
         this.dateCreated = LocalDate.now();
         this.userVideos = new ArrayList<>();
+    }
+
+    public User(Long id,String userName, String password, LocalDate date, Boolean isConnected) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.dateCreated = date;
+        this.isConnected = isConnected;
     }
 
     public User() {
@@ -115,5 +125,18 @@ public class User {
         isConnected = connected;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(userName, user.userName) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(dateCreated, user.dateCreated) &&
+                Objects.equals(isConnected, user.isConnected) &&
+                Objects.equals(userVideos, user.userVideos);
+    }
 
 }

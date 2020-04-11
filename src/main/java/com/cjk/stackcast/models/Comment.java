@@ -20,12 +20,6 @@ public class Comment {
         this.comment = null;
 
     }
-    public Comment(Long commentId , Long videoId , Long userId , String comment){
-        this.commentId = commentId;
-        this.videoId = videoId;
-        this.userId = userId;
-        this.comment = comment;
-    }
 
     public Comment(Long videoId , Long userId , String comment){
         this.videoId = videoId;
@@ -38,7 +32,6 @@ public class Comment {
         this.userId = Long.valueOf(0000);
         this.comment = comment;
     }
-
 
     public Long getCommentId() {
         return commentId;

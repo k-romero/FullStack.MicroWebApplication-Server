@@ -124,7 +124,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Post /users/updateName - Success")
+    @DisplayName("Put /users/updateName - Success")
     void testUpdateUserName() throws Exception {
         //Setup our mocked service
         String newUserName = "Kevin";
@@ -145,6 +145,53 @@ public class UserControllerTest {
 
                 .andExpect(jsonPath("$.userName", is(newUserName)))
                 .andExpect(jsonPath("$.password", is("testPassword")));
+    }
+
+    @Test
+    @DisplayName("Put /users/updatePw - Success")
+    void testUpdatePassword() throws Exception {
+        //Setup our mocked service
+        String newPassWord = "k3v1n2020";
+        User mockUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),true);
+        User putUser = new User(1L, "testUserName", newPassWord, LocalDate.now(),true);
+
+        given(service.showUser(1L)).willReturn(Optional.of(mockUser));
+        given(service.updatePassword(1L,newPassWord)).willReturn(putUser);
+        //Execute the Post request
+        mockMvc.perform(put("/zc-video-app/users/updatePw/{userId}",1)
+                .param("passWord",newPassWord)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putUser))
+        )
+                //Validate that we get a 200
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.userName", is("testUserName")))
+                .andExpect(jsonPath("$.password", is(newPassWord)));
+    }
+
+    @Test
+    @DisplayName("Put /users/login - Success")
+    void testUpdateLoginStatus() throws Exception {
+        //Setup our mocked service
+        User mockUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),false);
+        User putUser = new User(1L, "testUserName", "testPassword", LocalDate.now(),true);
+
+        given(service.showUser(1L)).willReturn(Optional.of(mockUser));
+        given(service.updateConnection(1L)).willReturn(putUser);
+        //Execute the Post request
+        mockMvc.perform(put("/zc-video-app/users/login/{userId}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putUser))
+        )
+                //Validate that we get a 200
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.userName", is("testUserName")))
+                .andExpect(jsonPath("$.password", is("testPassword")))
+                .andExpect(jsonPath("$.isConnected", is(true)));
     }
 
     public static String asJsonString(User user) {

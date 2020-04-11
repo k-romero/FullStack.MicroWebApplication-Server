@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/users")
+@CrossOrigin
 public class UserController {
 
     private UserService service;

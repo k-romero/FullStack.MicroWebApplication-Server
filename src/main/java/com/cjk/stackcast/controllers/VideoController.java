@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/videos")
+@CrossOrigin
 public class VideoController {
 
     @Autowired

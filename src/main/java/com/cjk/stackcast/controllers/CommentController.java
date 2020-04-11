@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping( value = "zc-video-app/comments")
+@CrossOrigin
 public class CommentController {
 
 

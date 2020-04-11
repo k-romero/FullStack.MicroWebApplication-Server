@@ -111,8 +111,7 @@ public class UserControllerTest {
         //Execute the Post request
         mockMvc.perform(post("/zc-video-app/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(postUser))
-                )
+                .content(asJsonString(postUser)))
 
                 //Validate that we get a 201
                 .andExpect(status().isCreated())

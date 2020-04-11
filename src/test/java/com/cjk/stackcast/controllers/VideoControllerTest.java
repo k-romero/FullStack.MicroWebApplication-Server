@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,7 +37,7 @@ public class VideoControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Get /videos/showvids/1 - Found")
+    @DisplayName("Get /videos/show/1 - Found")
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
         Video mockVideo = new Video(1L,"Test Video","https://testPath.com/test","video/mp4");
@@ -59,7 +60,7 @@ public class VideoControllerTest {
     }
 
     @Test
-    @DisplayName("GET /videos/showvids/1 - Not Found")
+    @DisplayName("GET /videos/show/1 - Not Found")
     void testGetVideoByIdNotFound() throws Exception {
         //Setup our mocked service
         doReturn(Optional.empty()).when(videoService).show(1L);

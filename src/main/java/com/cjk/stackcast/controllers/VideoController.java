@@ -1,5 +1,6 @@
 package com.cjk.stackcast.controllers;
 
+import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 @RestController
@@ -38,8 +42,15 @@ public class VideoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Video> createBasicVideo(@RequestBody Video video) throws Exception {
-        return new ResponseEntity<>(service.createVideo(video),HttpStatus.CREATED);
+    public ResponseEntity<Video> create(@RequestBody Video video){
+        Video newVideo = this.service.createVideo(video);
+        try {
+            return ResponseEntity
+                    .created(new URI("/create/" + newVideo.getVideoId()))
+                    .body(newVideo);
+        }catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/upload")

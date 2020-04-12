@@ -34,6 +34,17 @@ public class UserController {
                         .build());
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<?> show(@RequestParam String userName){
+        return this.service.findByUserName(userName)
+                .map(user -> ResponseEntity
+                        .ok()
+                        .body(user))
+                .orElse(ResponseEntity
+                        .notFound()
+                        .build());
+    }
+
     @RequestMapping("/show")
     public ResponseEntity<Iterable<User>> showAll(){
         return new ResponseEntity<>(service.showAll(), HttpStatus.OK);

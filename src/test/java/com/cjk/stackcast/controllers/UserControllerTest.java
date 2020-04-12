@@ -76,6 +76,28 @@ public class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Get /users/find - Found")
+    void testGetUserByUserNameFound() throws Exception{
+        //Setup mocked user
+        User mockUser = new User(1L, "testUserName", "testPassword");
+        doReturn(mockUser).when(service).create( mockUser);
+        doReturn(Optional.of(mockUser)).when(service).findByUserName("testUserName");
+
+        //Execute the Get request
+        mockMvc.perform(get("/zc-video-app/users/find")
+                .param("userName","testUserName"))
+
+                // Validate the response code and content type
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                // Validate the returned fields
+                .andExpect(jsonPath("$.userName",is("testUserName")))
+                .andExpect(jsonPath("$.password",is("testPassword")))
+                .andExpect(jsonPath("$.isConnected",is(false)));
+    }
+
+    @Test
     @DisplayName("GET /users/show - Found All")
     void testGetAllUsersFound() throws Exception {
         //Setup our mocked service

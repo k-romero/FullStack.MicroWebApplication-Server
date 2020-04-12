@@ -31,7 +31,12 @@ public class UserService {
     }
 
     public User create(User user){
-        return repo.save(user);
+        if(!findByUserName(user.getUserName()).isPresent()){
+            return repo.save(user);
+        }
+         else {
+             throw new IllegalArgumentException("That username is already taken");
+        }
     }
 
     public User updateUserName(Long userId, String userName){

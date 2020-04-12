@@ -74,6 +74,20 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test findByUserName Success")
+    public void testFindByUserNameSuccess(){
+        // Set up mock object and repository
+        User mockUser = new User("testUserName", "testpassWord");
+        doReturn(Optional.of(mockUser)).when(userRepository).findUserByUserName("testUserName");
+
+        // Execute call
+        Optional<User> returnUser = userService.findByUserName("testUserName");
+
+        Assertions.assertTrue(returnUser.isPresent(), "No User was found when there should be");
+        Assertions.assertSame(returnUser.get(),mockUser, "Models don't match up");
+    }
+
+    @Test
     @DisplayName("Test save User")
     public void testSave(){
         // Set up mock object and repository

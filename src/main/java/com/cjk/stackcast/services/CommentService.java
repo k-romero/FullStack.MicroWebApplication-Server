@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -18,6 +19,9 @@ public class CommentService {
     @Autowired
     public CommentService(CommentRepository commentRepo){
         this.commentRepo = commentRepo;
+    }
+    public Optional<Comment> showComment(Long id){
+        return commentRepo.findById(id);
     }
 
     public Iterable<Comment> showAll(){

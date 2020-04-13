@@ -23,7 +23,14 @@ public class CommentController {
         this.service = service;
     }
 
-    //********************************************************************  Show All   ******************
+    //************************************************** ******************  Show Comment   ******************
+    @GetMapping("/showComment/{id}")
+    public ResponseEntity<?> showComment(@PathVariable Long id){
+        return this.service.showComment(id)
+                .map(comment -> ResponseEntity.ok().body(comment))
+                .orElse(ResponseEntity.notFound().build());
+    }
+    //************************************************** ******************  Show All   ******************
     @GetMapping("/show")
     public ResponseEntity<Iterable<Comment>> showAll(){
         return new ResponseEntity<>(service.showAll() , HttpStatus.OK);

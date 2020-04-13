@@ -1,7 +1,7 @@
 package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
-import com.cjk.stackcast.models.User;
+
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.model.*;
-
 
 import java.io.File;
 
@@ -90,6 +89,7 @@ public class VideoService {
         Video video = new Video(videoName,multipartFile.getContentType(),fileName);
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
+
         if(uploadFile(file,fileName).isSuccessful()){
             return createVideo(video);
         } else

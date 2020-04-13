@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -19,6 +20,9 @@ public class CommentService {
     public CommentService(CommentRepository commentRepo){
         this.commentRepo = commentRepo;
     }
+    public Optional<Comment> showComment(Long id){
+        return commentRepo.findById(id);
+    }
 
     public Iterable<Comment> showAll(){
         return commentRepo.findAll();
@@ -30,7 +34,7 @@ public class CommentService {
 
     public Boolean deleteComment(Long commentId){
         Comment comment = commentRepo.getOne(commentId);
-        if(comment.getCommentId().equals(commentId)){
+        if(commentId.equals(comment.getCommentId())){
             commentRepo.deleteById(commentId);
             return true;
         }else{

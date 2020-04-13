@@ -119,7 +119,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].password", is("testPassword")))
                 .andExpect(jsonPath("$[1].userName", is("testUserName2")))
                 .andExpect(jsonPath("$[1].password", is("testPassword2")));
-
     }
 
     @Test
@@ -133,9 +132,11 @@ public class UserControllerTest {
         //Execute the Post request
         mockMvc.perform(post("/zc-video-app/users/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(postUser)))
 
-                //Validate that we get a 201
+                .content(asJsonString(postUser))
+                )
+                //Validate that we get a 200
+
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string(HttpHeaders.LOCATION,"/create/1"))

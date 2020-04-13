@@ -21,6 +21,12 @@ public class Comment {
 
     }
 
+    public Comment(Long commentID,Long videoId , Long userId , String comment){
+        this.commentId = commentID;
+        this.videoId = videoId;
+        this.userId = userId;
+        this.comment = comment;
+    }
     public Comment(Long videoId , Long userId , String comment){
         this.videoId = videoId;
         this.userId = userId;

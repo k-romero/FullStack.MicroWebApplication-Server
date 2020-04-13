@@ -112,7 +112,7 @@ public class CommentServiceTest {
         doReturn(mockComment2).when(commentRepository).save(mockComment2);
         doReturn(mockComment3).when(commentRepository).save(mockComment3);
 
-        doReturn(Arrays.asList(comment1,comment2)).when(commentRepository).findByVideoId(1L);
+        doReturn(Arrays.asList(mockComment1,mockComment2,mockComment3)).when(commentRepository).findAll();
 
         List<String> commentsPre = new ArrayList<>();
         commentsPre.add(comment1);

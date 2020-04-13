@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>{
 
-    public List<String> findByVideoId(Long videoId);
+    List<Comment> findAllByVideoId(Long videoId);
+
+    List<String> findByVideoId(Long videoId);
 }

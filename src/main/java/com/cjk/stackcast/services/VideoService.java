@@ -89,7 +89,6 @@ public class VideoService {
         Video video = new Video(videoName,multipartFile.getContentType(),fileName);
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
-
         if(uploadFile(file,fileName).isSuccessful()){
             return createVideo(video);
         } else

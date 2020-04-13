@@ -5,6 +5,7 @@ import com.cjk.stackcast.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/users")
+@CrossOrigin
 public class UserController {
 
     private UserService service;
@@ -33,13 +35,24 @@ public class UserController {
                         .build());
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<?> show(@RequestParam String userName){
+        return this.service.findByUserName(userName)
+                .map(user -> ResponseEntity
+                        .ok()
+                        .body(user))
+                .orElse(ResponseEntity
+                        .notFound()
+                        .build());
+    }
+
     @RequestMapping("/show")
     public ResponseEntity<Iterable<User>> showAll(){
         return new ResponseEntity<>(service.showAll(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> create(@RequestBody User user){
+    public ResponseEntity<User> create(@RequestBody User user, BindingResult bindingResult){
         //TODO create validation forms to check user credentials are long enough
         User newUser = this.service.create(user);
         try {

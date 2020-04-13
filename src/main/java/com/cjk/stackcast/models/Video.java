@@ -25,7 +25,7 @@ public class Video {
     public Video(String videoName, String videoPath) {
         this.videoName = videoName;
         this.videoPath = videoPath;
-        this.videoType = videoType;
+        this.videoType = "";
         videoViews = 0;
         originalVideoKey = "";
     }
@@ -35,8 +35,9 @@ public class Video {
         this.videoName = videoName;
         this.videoPath = videoPath;
         this.videoType = videoType;
-        videoViews = 0;
-        originalVideoKey = "";
+        this.videoViews = 0;
+        this.originalVideoKey = "";
+        this.userId = 0L;
     }
 
     public Video(String videoName, String videoType, String originalVideoKey) {

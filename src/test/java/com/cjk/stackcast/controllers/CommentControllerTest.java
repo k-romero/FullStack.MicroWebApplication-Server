@@ -38,16 +38,16 @@ public class CommentControllerTest {
     @Test
     @DisplayName("Get /comments/showComment/1 - Found")
     public void testShowCommentFound() throws Exception{
-        Comment mockComment = new Comment(1L , 1L,"Test Comment");
+        Comment mockComment = new Comment(1L,1L , 1L,"Test Comment");
         doReturn(mockComment).when(commentService).create(mockComment);
         doReturn(Optional.of(mockComment)).when(commentService).showComment(1L);
 
         mockMvc.perform(get("/zc-video-app/comments/showComment/{id}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.commentId",is(1L)))
-                .andExpect(jsonPath("$.videoId",is(1L)))
-                .andExpect(jsonPath("$.userId",is(1L)))
+                .andExpect(jsonPath("$.commentId",is(1)))
+                .andExpect(jsonPath("$.videoId",is(1)))
+                .andExpect(jsonPath("$.userId",is(1)))
                 .andExpect(jsonPath("$.comment",is("Test Comment")));
     }
 
@@ -66,8 +66,8 @@ public class CommentControllerTest {
     @Test
     @DisplayName("Get /comments/show - Found")
     public void testShowAllComments() throws Exception{
-        Comment mockComment1 = new Comment(1L , 1L,"Test Comment 1");
-        Comment mockComment2 = new Comment(2L , 2L,"Test Comment 2");
+        Comment mockComment1 = new Comment(1L,1L , 1L,"Test Comment 1");
+        Comment mockComment2 = new Comment(2L,2L , 2L,"Test Comment 2");
 
         Iterable<Comment> comments = new ArrayList<>(Arrays.asList(mockComment1,mockComment2));
         doReturn(comments).when(commentService).showAll();
@@ -76,14 +76,14 @@ public class CommentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
-                .andExpect(jsonPath("$[0].commentId",is(1L)))
-                .andExpect(jsonPath("$[0].videoId",is(1L)))
-                .andExpect(jsonPath("$[0].userId",is(1L)))
-                .andExpect(jsonPath("$[0].comment",is("Test Comment 2")))
+                .andExpect(jsonPath("$[0].commentId",is(1)))
+                .andExpect(jsonPath("$[0].videoId",is(1)))
+                .andExpect(jsonPath("$[0].userId",is(1)))
+                .andExpect(jsonPath("$[0].comment",is("Test Comment 1")))
 
-                .andExpect(jsonPath("$[1].commentId",is(2L)))
-                .andExpect(jsonPath("$[1].videoId",is(2L)))
-                .andExpect(jsonPath("$[1].userId",is(2L)))
+                .andExpect(jsonPath("$[1].commentId",is(2)))
+                .andExpect(jsonPath("$[1].videoId",is(2)))
+                .andExpect(jsonPath("$[1].userId",is(2)))
                 .andExpect(jsonPath("$[1].comment",is("Test Comment 2")));
     }
     @Test

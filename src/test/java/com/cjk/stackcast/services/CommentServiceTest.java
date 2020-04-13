@@ -84,10 +84,12 @@ public class CommentServiceTest {
 
     //*******************************************************************   Delete Comment   ***************************
     @Test
-    @DisplayName("Test deleteComment")
+    @DisplayName("Test deleteComment Success")
     public void testDeleteComment(){
 
-        Comment mockComment = new Comment(1L , 1L,"Test Comment 1");
+        Comment mockComment = new Comment(1L,1L , 1L,"Test Comment 1");
+        doReturn(mockComment).when(commentRepository).save(mockComment);
+
         doReturn(mockComment).when(commentRepository).getOne(1L);
 
         Boolean deleted = commentService.deleteComment(1L);
@@ -97,14 +99,18 @@ public class CommentServiceTest {
 
     //*******************************************************************   Find By Video Id   *************************
     @Test
-    @DisplayName("Test deleteComment")
+    @DisplayName("Test Find Comments By Video Id Success")
     public void testFindCommentsById(){
 
-        Comment mockComment1 = new Comment(1L , 1L,"Test Comment 1");
-        Comment mockComment2 = new Comment(1L , 2L,"Test Comment 2");
-        Comment mockComment = new Comment(2L , 3L,"Test Comment 3");
+        Comment mockComment1 = new Comment(1L,1L , 1L,"Test Comment 1");
+        Comment mockComment2 = new Comment(2L,1L , 2L,"Test Comment 2");
+        Comment mockComment3 = new Comment(3L,2L , 3L,"Test Comment 3");
         String comment1 = "Test Comment 1";
         String comment2 = "Test Comment 2";
+
+        doReturn(mockComment1).when(commentRepository).save(mockComment1);
+        doReturn(mockComment2).when(commentRepository).save(mockComment2);
+        doReturn(mockComment3).when(commentRepository).save(mockComment3);
 
         doReturn(Arrays.asList(comment1,comment2)).when(commentRepository).findByVideoId(1L);
 
@@ -113,6 +119,8 @@ public class CommentServiceTest {
         commentsPre.add(comment2);
         List<String> commentsPost = commentService.findByVideoId(1L);
 
+        Assertions.assertEquals(2,commentsPre.size());
+        Assertions.assertEquals(2,(commentService.findByVideoId(1L)).size());
         Assertions.assertEquals(commentsPre.get(0), commentsPost.get(0));
         Assertions.assertEquals(commentsPre.get(1), commentsPost.get(1));
     }

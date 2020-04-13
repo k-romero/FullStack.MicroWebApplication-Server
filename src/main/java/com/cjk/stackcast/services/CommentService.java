@@ -34,7 +34,7 @@ public class CommentService {
 
     public Boolean deleteComment(Long commentId){
         Comment comment = commentRepo.getOne(commentId);
-        if(comment.getCommentId().equals(commentId)){
+        if(commentId.equals(comment.getCommentId())){
             commentRepo.deleteById(commentId);
             return true;
         }else{

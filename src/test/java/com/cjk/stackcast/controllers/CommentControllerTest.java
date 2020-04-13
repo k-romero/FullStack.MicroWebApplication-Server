@@ -2,7 +2,7 @@ package com.cjk.stackcast.controllers;
 
 import com.cjk.stackcast.models.Comment;
 import com.cjk.stackcast.services.CommentService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

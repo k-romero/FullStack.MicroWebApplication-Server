@@ -1,5 +1,7 @@
 package com.cjk.stackcast.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,8 @@ public class Video {
     @Column(name = "USER_ID")
     private Long userId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "video")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "video")
     List<Comment> comments;
 
     public Video(String videoName, String videoPath) {

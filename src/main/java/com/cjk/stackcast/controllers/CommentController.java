@@ -53,7 +53,6 @@ public class CommentController {
         }
     }
 
-
     @DeleteMapping(value ="/delete/{id}")
     public ResponseEntity<Boolean> deleteComment(@PathVariable Long id) {
         return new ResponseEntity<>(service.deleteComment(id) , HttpStatus.OK);

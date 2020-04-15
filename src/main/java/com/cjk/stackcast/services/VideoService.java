@@ -2,6 +2,7 @@ package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
 
+import com.cjk.stackcast.models.Comment;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,10 @@ public class VideoService {
             return true;
         } else
             return false;
+    }
+
+    public List<Comment> findAllCommentsByVideoId(Long videoId){
+        return null;
     }
 
     public Video setUser(Long videoId, Long userId){

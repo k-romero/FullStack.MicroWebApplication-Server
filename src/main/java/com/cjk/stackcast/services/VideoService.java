@@ -5,6 +5,7 @@ import com.cjk.stackcast.aws.AwsS3Configuration;
 import com.cjk.stackcast.models.Comment;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,9 +47,8 @@ public class VideoService {
         return repo.findAllByUserId(userId);
     }
 
-
-    public Video createVideo(Video basicVideo){
-        return repo.save(basicVideo);
+    public Video saveVideo(Video video){
+        return repo.save(video);
     }
 
     public boolean delete(Long videoId){
@@ -60,8 +60,11 @@ public class VideoService {
             return false;
     }
 
-    public List<Comment> findAllCommentsByVideoId(Long videoId){
-        return null;
+    public List<Comment> findAllCommentsByVideoId(Long videoId) throws Exception {
+        Optional<Video> foundVideo = repo.findById(videoId);
+        if(foundVideo.isPresent()){
+            return foundVideo.get().getComments();
+        } else throw new Exception("No video was found with that id!");
     }
 
     public Video setUser(Long videoId, Long userId){
@@ -95,7 +98,7 @@ public class VideoService {
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
         if(uploadFile(file,fileName).isSuccessful()){
-            return createVideo(video);
+            return saveVideo(video);
         } else
             return null;
     }

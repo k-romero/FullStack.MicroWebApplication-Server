@@ -41,7 +41,7 @@ public class VideoControllerTest {
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
         Video mockVideo = new Video(1L,"Test Video","https://testPath.com/test","video/mp4");
-        doReturn(mockVideo).when(videoService).createVideo( mockVideo);
+        doReturn(mockVideo).when(videoService).saveVideo( mockVideo);
         doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
 
         //Execute the Get request

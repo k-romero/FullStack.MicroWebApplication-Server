@@ -1,6 +1,7 @@
 package com.cjk.stackcast.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Comment {
@@ -9,6 +10,7 @@ public class Comment {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long commentId;
     private Long userId;
+    @NotEmpty(message = "Comment message cannot be empty!")
     private String message;
     @ManyToOne
     @JoinColumn(name = "VIDEO_ID")

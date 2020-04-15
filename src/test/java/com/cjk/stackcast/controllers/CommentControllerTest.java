@@ -1,7 +1,9 @@
 package com.cjk.stackcast.controllers;
 
 import com.cjk.stackcast.models.Comment;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.CommentService;
+import com.cjk.stackcast.services.VideoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +34,9 @@ public class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private VideoService videoService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,10 +44,12 @@ public class CommentControllerTest {
     @DisplayName("Get /comments/showComment/1 - Found")
     public void testShowCommentFound() throws Exception{
         Comment mockComment = new Comment(1L, 1L,"Test Comment");
-        doReturn(mockComment).when(commentService).create(mockComment);
+        Video mockVideo = new Video(1L, "TestVideoName", "http://testvideo.test","video/mp4");
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(mockComment).when(commentService).create(1L,mockComment);
         doReturn(Optional.of(mockComment)).when(commentService).showComment(1L);
 
-        mockMvc.perform(get("/zc-video-app/comments/showComment/{id}",1))
+        mockMvc.perform(get("/zc-video-app/comments/show/{id}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.commentId",is(1)))
@@ -88,7 +95,7 @@ public class CommentControllerTest {
 
         Comment mockComment = new Comment(1L , 1L,"Test Comment 1");
 
-        given(commentService.create(mockComment)).willReturn(mockComment);
+        given(commentService.create(1L,mockComment)).willReturn(mockComment);
         mockMvc.perform(post("/zc-video-app/comments/create")
                 .contentType(MediaType.APPLICATION_JSON));
     }

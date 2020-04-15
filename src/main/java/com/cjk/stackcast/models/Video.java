@@ -1,6 +1,7 @@
 package com.cjk.stackcast.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,6 +43,7 @@ public class Video {
         this.videoViews = 0;
         this.originalVideoKey = "";
         this.userId = 0L;
+        this.comments = new ArrayList<>();
     }
 
     public Video(String videoName, String videoType, String originalVideoKey) {

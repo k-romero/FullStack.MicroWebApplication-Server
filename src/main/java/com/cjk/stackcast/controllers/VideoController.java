@@ -44,7 +44,7 @@ public class VideoController {
 
     @PostMapping("/create")
     public ResponseEntity<Video> create(@RequestBody Video video){
-        Video newVideo = this.service.createVideo(video);
+        Video newVideo = this.service.saveVideo(video);
         try {
             return ResponseEntity
                     .created(new URI("/create/" + newVideo.getVideoId()))

@@ -13,6 +13,8 @@ public class Comment {
     private String comment;
 
 
+
+
     public Comment(){
         this.commentId = null;
         this.videoId = null;

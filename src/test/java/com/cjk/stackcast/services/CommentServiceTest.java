@@ -33,7 +33,6 @@ public class CommentServiceTest {
     @Test
     @DisplayName("Test showComment Success")
     public void testFindByIdFound(){
-
         Comment mockComment = new Comment(1L , "Test Comment");
         doReturn(Optional.of(mockComment)).when(commentRepository).findById(1L);
 

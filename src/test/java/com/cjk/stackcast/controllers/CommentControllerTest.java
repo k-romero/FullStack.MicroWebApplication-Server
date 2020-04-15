@@ -46,9 +46,8 @@ public class CommentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.commentId",is(1)))
-                .andExpect(jsonPath("$.videoId",is(1)))
                 .andExpect(jsonPath("$.userId",is(1)))
-                .andExpect(jsonPath("$.comment",is("Test Comment")));
+                .andExpect(jsonPath("$.message",is("Test Comment")));
     }
 
     @Test
@@ -75,14 +74,12 @@ public class CommentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(jsonPath("$[0].commentId",is(1)))
-                .andExpect(jsonPath("$[0].videoId",is(1)))
                 .andExpect(jsonPath("$[0].userId",is(1)))
-                .andExpect(jsonPath("$[0].comment",is("Test Comment 1")))
+                .andExpect(jsonPath("$[0].message",is("Test Comment 1")))
 
                 .andExpect(jsonPath("$[1].commentId",is(2)))
-                .andExpect(jsonPath("$[1].videoId",is(2)))
                 .andExpect(jsonPath("$[1].userId",is(2)))
-                .andExpect(jsonPath("$[1].comment",is("Test Comment 2")));
+                .andExpect(jsonPath("$[1].message",is("Test Comment 2")));
     }
 
     @Test
@@ -95,4 +92,5 @@ public class CommentControllerTest {
         mockMvc.perform(post("/zc-video-app/comments/create")
                 .contentType(MediaType.APPLICATION_JSON));
     }
+
 }

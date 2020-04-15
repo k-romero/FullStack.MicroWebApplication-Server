@@ -36,7 +36,7 @@ public class UserServiceTest {
     @DisplayName("Test findById Success")
     public void testFindByIdSuccess(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testpassWord");
+        User mockUser = new User("testUserName", "testPassWord");
         doReturn(Optional.of(mockUser)).when(userRepository).findById(1L);
 
         // Execute call
@@ -62,8 +62,8 @@ public class UserServiceTest {
     @DisplayName("Test findAll")
     public void testFindAll(){
         // Set up mock object and repository
-        User mockUser1 = new User("testUserName1", "testpassWord1");
-        User mockUser2 = new User("testUserName2", "testpassWord2");
+        User mockUser1 = new User("testUserName1", "testPassWord1");
+        User mockUser2 = new User("testUserName2", "testPassWord2");
         doReturn(Arrays.asList(mockUser1,mockUser2)).when(userRepository).findAll();
 
         // Execute call
@@ -77,7 +77,7 @@ public class UserServiceTest {
     @DisplayName("Test findByUserName Success")
     public void testFindByUserNameSuccess(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testpassWord");
+        User mockUser = new User("testUserName", "testPassWord");
         doReturn(Optional.of(mockUser)).when(userRepository).findUserByUserName("testUserName");
 
         // Execute call

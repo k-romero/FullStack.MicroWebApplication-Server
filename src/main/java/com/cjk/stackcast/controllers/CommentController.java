@@ -16,7 +16,6 @@ import java.util.List;
 @CrossOrigin
 public class CommentController {
 
-
     private CommentService service;
 
     @Autowired
@@ -24,23 +23,23 @@ public class CommentController {
         this.service = service;
     }
 
-    //************************************************** ******************  Show Comment   ******************
+
     @GetMapping("/showComment/{id}")
     public ResponseEntity<?> showComment(@PathVariable Long id){
         return this.service.showComment(id)
                 .map(comment -> ResponseEntity.ok().body(comment))
                 .orElse(ResponseEntity.notFound().build());
     }
-    //************************************************** ******************  Show All   ******************
+
+
     @GetMapping("/show")
     public ResponseEntity<Iterable<Comment>> showAll(){
         return new ResponseEntity<>(service.showAll() , HttpStatus.OK);
     }
 
-    //********************************************************************  Create   ********************
+
     @PostMapping("/create")
     public ResponseEntity<Comment> create(@RequestBody Comment comment){
-
         Comment newComment = this.service.create(comment);
         try {
             return ResponseEntity
@@ -49,17 +48,12 @@ public class CommentController {
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
-    //********************************************************************  Remove   ******************
+
+
     @DeleteMapping(value ="/delete/{commentId}")
     public ResponseEntity<Boolean> deleteComment(@PathVariable Long commentId) {
         return new ResponseEntity<>(service.deleteComment(commentId) , HttpStatus.OK);
     }
 
-    //********************************************************************  Find By Video ID   ***********
-    @GetMapping("/findByVideoId/{videoId}")
-    public ResponseEntity<List<String>> findCommentsByVideoId(@PathVariable Long videoId){
-        return new ResponseEntity<>(service.findByVideoId(videoId) , HttpStatus.OK);
-    }
 }

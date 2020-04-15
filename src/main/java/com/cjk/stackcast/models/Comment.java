@@ -8,36 +8,24 @@ public class Comment {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long commentId;
-    private Long videoId;
     private Long userId;
     private String comment;
-
-
+    @ManyToOne
+    @JoinColumn(name = "VIDEO_ID")
+    private Video video;
 
 
     public Comment(){
-        this.commentId = null;
-        this.videoId = null;
-        this.userId = null;
-        this.comment = null;
-
     }
 
-    public Comment(Long commentID,Long videoId , Long userId , String comment){
+    public Comment(Long commentID, Long userId , String comment){
         this.commentId = commentID;
-        this.videoId = videoId;
-        this.userId = userId;
-        this.comment = comment;
-    }
-    public Comment(Long videoId , Long userId , String comment){
-        this.videoId = videoId;
         this.userId = userId;
         this.comment = comment;
     }
 
-    public Comment(Long videoId , String comment){
-        this.videoId = videoId;
-        this.userId = Long.valueOf(0000);
+    public Comment(Long userId , String comment){
+        this.userId = userId;
         this.comment = comment;
     }
 
@@ -47,14 +35,6 @@ public class Comment {
 
     public void setCommentId(Long commentId) {
         this.commentId = commentId;
-    }
-
-    public Long getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(Long videoId) {
-        this.videoId = videoId;
     }
 
     public Long getUserId() {
@@ -73,7 +53,11 @@ public class Comment {
         this.comment = comment;
     }
 
+    public Video getVideo() {
+        return video;
+    }
 
-
-
+    public void setVideo(Video video) {
+        this.video = video;
+    }
 }

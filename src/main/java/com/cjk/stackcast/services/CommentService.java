@@ -43,14 +43,4 @@ public class CommentService {
         }
     }
 
-    public List<String> findByVideoId(Long videoId){
-        List<String> comments = new ArrayList<>();
-        List<Comment> found = commentRepo.findAll();
-        for(Comment comment : found){
-            if(comment.getVideoId().equals(videoId)){
-                comments.add(comment.getComment());
-            }
-        }
-        return comments;
-    }
 }

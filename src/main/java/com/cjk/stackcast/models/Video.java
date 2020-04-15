@@ -1,6 +1,7 @@
 package com.cjk.stackcast.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Video {
@@ -21,6 +22,9 @@ public class Video {
     private String originalVideoKey;
     @Column(name = "USER_ID")
     private Long userId;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "video")
+    List<Comment> comments;
 
     public Video(String videoName, String videoPath) {
         this.videoName = videoName;
@@ -105,5 +109,13 @@ public class Video {
 
     public void setOriginalVideoKey(String originalVideoKey) {
         this.originalVideoKey = originalVideoKey;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

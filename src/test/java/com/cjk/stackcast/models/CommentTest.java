@@ -26,33 +26,11 @@ public class CommentTest {
     }
 
     @Test
-    public void nullaryConstructor(){
+    public void nullConstructor(){
         Assert.assertNull(comment.getComment());
     }
 
-    @Test
-    public void constructorWithThreeParams(){
 
-        Long videoId = Long.valueOf(1001);
-        Long userId = Long.valueOf(0000);
-        String actualComment = "Comment for testing";
-
-        comment = new Comment(videoId , userId , actualComment);
-
-        Assert.assertEquals(videoId , comment.getVideoId());
-        Assert.assertEquals(userId , comment.getUserId());
-        Assert.assertEquals(actualComment , comment.getComment());
-    }
-    @Test
-    public void constructorWithTwoParams(){
-        Long videoId = Long.valueOf(1001);
-        String actualComment = "Comment for testing";
-
-        comment = new Comment(videoId , actualComment);
-
-        Assert.assertEquals(videoId , comment.getVideoId());
-        Assert.assertEquals(actualComment , comment.getComment());
-    }
     @Test
     public void setCommentID(){
 
@@ -60,13 +38,7 @@ public class CommentTest {
         comment.setCommentId(Long.valueOf(1));
         Assert.assertEquals(Long.valueOf(1) , comment.getCommentId());
     }
-    @Test
-    public void setVideoID(){
 
-        Assert.assertNull(comment.getCommentId());
-        comment.setVideoId(Long.valueOf(1001));
-        Assert.assertEquals(Long.valueOf(1001) , comment.getVideoId());
-    }
     @Test
     public void setUserID(){
 
@@ -75,11 +47,11 @@ public class CommentTest {
         Assert.assertEquals(Long.valueOf(1001) , comment.getUserId());
     }
     @Test
-    public void setComment(){
+    public void setComment() {
 
         Assert.assertNull(comment.getCommentId());
         comment.setComment("First Comment");
-        Assert.assertEquals("First Comment" , comment.getComment());
+        Assert.assertEquals("First Comment", comment.getComment());
     }
 
 

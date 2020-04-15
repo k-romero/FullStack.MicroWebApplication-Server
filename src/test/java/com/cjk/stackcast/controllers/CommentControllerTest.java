@@ -34,11 +34,11 @@ public class CommentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    //***************************************************  Show Comment By Id Found  ***********************************
+
     @Test
     @DisplayName("Get /comments/showComment/1 - Found")
     public void testShowCommentFound() throws Exception{
-        Comment mockComment = new Comment(1L,1L , 1L,"Test Comment");
+        Comment mockComment = new Comment(1L, 1L,"Test Comment");
         doReturn(mockComment).when(commentService).create(mockComment);
         doReturn(Optional.of(mockComment)).when(commentService).showComment(1L);
 
@@ -51,7 +51,6 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$.comment",is("Test Comment")));
     }
 
-    //***************************************************  Show Comment By Id Not Found  *******************************
     @Test
     @DisplayName("Get /comments/showComment/1 - Not Found")
     public void testShowCommentNotFound() throws Exception{
@@ -62,12 +61,11 @@ public class CommentControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    //***************************************************  Show All Comments  ******************************************
     @Test
     @DisplayName("Get /comments/show - Found")
     public void testShowAllComments() throws Exception{
-        Comment mockComment1 = new Comment(1L,1L , 1L,"Test Comment 1");
-        Comment mockComment2 = new Comment(2L,2L , 2L,"Test Comment 2");
+        Comment mockComment1 = new Comment(1L, 1L,"Test Comment 1");
+        Comment mockComment2 = new Comment(2L, 2L,"Test Comment 2");
 
         Iterable<Comment> comments = new ArrayList<>(Arrays.asList(mockComment1,mockComment2));
         doReturn(comments).when(commentService).showAll();
@@ -86,6 +84,7 @@ public class CommentControllerTest {
                 .andExpect(jsonPath("$[1].userId",is(2)))
                 .andExpect(jsonPath("$[1].comment",is("Test Comment 2")));
     }
+
     @Test
     @DisplayName("Get /comments/create - Successful")
     public void testCreateComment() throws Exception{

@@ -9,7 +9,7 @@ public class Comment {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long commentId;
     private Long userId;
-    private String comment;
+    private String message;
     @ManyToOne
     @JoinColumn(name = "VIDEO_ID")
     private Video video;
@@ -18,15 +18,15 @@ public class Comment {
     public Comment(){
     }
 
-    public Comment(Long commentID, Long userId , String comment){
+    public Comment(Long commentID, Long userId , String message){
         this.commentId = commentID;
         this.userId = userId;
-        this.comment = comment;
+        this.message = message;
     }
 
-    public Comment(Long userId , String comment){
+    public Comment(Long userId , String message){
         this.userId = userId;
-        this.comment = comment;
+        this.message = message;
     }
 
     public Long getCommentId() {
@@ -45,12 +45,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Video getVideo() {

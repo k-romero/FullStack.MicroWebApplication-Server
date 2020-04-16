@@ -1,5 +1,7 @@
 package com.cjk.stackcast.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -12,6 +14,7 @@ public class Comment {
     private Long userId;
     @NotEmpty(message = "Comment message cannot be empty!")
     private String message;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "VIDEO_ID")
     private Video video;

@@ -16,7 +16,6 @@ import java.util.List;
 @CrossOrigin
 public class CommentController {
 
-
     private CommentService service;
 
     @Autowired
@@ -24,24 +23,27 @@ public class CommentController {
         this.service = service;
     }
 
-    //************************************************** ******************  Show Comment   ******************
-    @GetMapping("/showComment/{id}")
+
+    @GetMapping("/show/{id}")
     public ResponseEntity<?> showComment(@PathVariable Long id){
         return this.service.showComment(id)
                 .map(comment -> ResponseEntity.ok().body(comment))
                 .orElse(ResponseEntity.notFound().build());
     }
-    //************************************************** ******************  Show All   ******************
+
     @GetMapping("/show")
     public ResponseEntity<Iterable<Comment>> showAll(){
         return new ResponseEntity<>(service.showAll() , HttpStatus.OK);
     }
 
-    //********************************************************************  Create   ********************
-    @PostMapping("/create")
-    public ResponseEntity<Comment> create(@RequestBody Comment comment){
+    @GetMapping("/showByVideo/{videoId}")
+    public ResponseEntity<List<Comment>> findCommentsByVideoId(@PathVariable Long videoId){
+        return new ResponseEntity<>(service.findAllCommentsByVideoId(videoId),HttpStatus.OK);
+    }
 
-        Comment newComment = this.service.create(comment);
+    @PostMapping("/create/{videoId}")
+    public ResponseEntity<Comment> create(@PathVariable Long videoId, @RequestBody Comment comment) throws Exception {
+        Comment newComment = this.service.create(videoId,comment);
         try {
             return ResponseEntity
                     .created( new URI("/create" + newComment.getCommentId()))
@@ -49,17 +51,16 @@ public class CommentController {
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-    }
-    //********************************************************************  Remove   ******************
-    @DeleteMapping(value ="/delete/{commentId}")
-    public ResponseEntity<Boolean> deleteComment(@PathVariable Long commentId) {
-        return new ResponseEntity<>(service.deleteComment(commentId) , HttpStatus.OK);
     }
 
-    //********************************************************************  Find By Video ID   ***********
-    @GetMapping("/findByVideoId/{videoId}")
-    public ResponseEntity<List<String>> findCommentsByVideoId(@PathVariable Long videoId){
-        return new ResponseEntity<>(service.findByVideoId(videoId) , HttpStatus.OK);
+    @DeleteMapping(value ="/delete/{id}")
+    public ResponseEntity<Boolean> deleteComment(@PathVariable Long id) {
+        return new ResponseEntity<>(service.deleteComment(id) , HttpStatus.OK);
     }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<Comment> updateComment(@PathVariable Long id, @RequestParam String newMessage) throws Exception {
+        return new ResponseEntity<>(service.updateCommentMessage(id,newMessage),HttpStatus.OK);
+    }
+
 }

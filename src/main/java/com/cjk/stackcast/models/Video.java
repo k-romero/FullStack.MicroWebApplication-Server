@@ -1,6 +1,10 @@
 package com.cjk.stackcast.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Video {
@@ -22,6 +26,9 @@ public class Video {
     @Column(name = "USER_ID")
     private Long userId;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "video")
+    List<Comment> comments;
+
     public Video(String videoName, String videoPath) {
         this.videoName = videoName;
         this.videoPath = videoPath;
@@ -38,6 +45,7 @@ public class Video {
         this.videoViews = 0;
         this.originalVideoKey = "";
         this.userId = 0L;
+        this.comments = new ArrayList<>();
     }
 
     public Video(String videoName, String videoType, String originalVideoKey) {
@@ -105,5 +113,13 @@ public class Video {
 
     public void setOriginalVideoKey(String originalVideoKey) {
         this.originalVideoKey = originalVideoKey;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

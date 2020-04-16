@@ -1,7 +1,9 @@
 package com.cjk.stackcast.controllers;
 
 import com.cjk.stackcast.models.Comment;
+import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.CommentService;
+import com.cjk.stackcast.services.VideoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,26 +34,29 @@ public class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private VideoService videoService;
+
     @Autowired
     private MockMvc mockMvc;
-    //***************************************************  Show Comment By Id Found  ***********************************
+
     @Test
     @DisplayName("Get /comments/showComment/1 - Found")
     public void testShowCommentFound() throws Exception{
-        Comment mockComment = new Comment(1L,1L , 1L,"Test Comment");
-        doReturn(mockComment).when(commentService).create(mockComment);
+        Comment mockComment = new Comment(1L, 1L,"Test Comment");
+        Video mockVideo = new Video(1L, "TestVideoName", "http://testvideo.test","video/mp4");
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(mockComment).when(commentService).create(1L,mockComment);
         doReturn(Optional.of(mockComment)).when(commentService).showComment(1L);
 
-        mockMvc.perform(get("/zc-video-app/comments/showComment/{id}",1))
+        mockMvc.perform(get("/zc-video-app/comments/show/{id}",1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.commentId",is(1)))
-                .andExpect(jsonPath("$.videoId",is(1)))
                 .andExpect(jsonPath("$.userId",is(1)))
-                .andExpect(jsonPath("$.comment",is("Test Comment")));
+                .andExpect(jsonPath("$.message",is("Test Comment")));
     }
 
-    //***************************************************  Show Comment By Id Not Found  *******************************
     @Test
     @DisplayName("Get /comments/showComment/1 - Not Found")
     public void testShowCommentNotFound() throws Exception{
@@ -62,12 +67,11 @@ public class CommentControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    //***************************************************  Show All Comments  ******************************************
     @Test
     @DisplayName("Get /comments/show - Found")
     public void testShowAllComments() throws Exception{
-        Comment mockComment1 = new Comment(1L,1L , 1L,"Test Comment 1");
-        Comment mockComment2 = new Comment(2L,2L , 2L,"Test Comment 2");
+        Comment mockComment1 = new Comment(1L, 1L,"Test Comment 1");
+        Comment mockComment2 = new Comment(2L, 2L,"Test Comment 2");
 
         Iterable<Comment> comments = new ArrayList<>(Arrays.asList(mockComment1,mockComment2));
         doReturn(comments).when(commentService).showAll();
@@ -77,23 +81,23 @@ public class CommentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(jsonPath("$[0].commentId",is(1)))
-                .andExpect(jsonPath("$[0].videoId",is(1)))
                 .andExpect(jsonPath("$[0].userId",is(1)))
-                .andExpect(jsonPath("$[0].comment",is("Test Comment 1")))
+                .andExpect(jsonPath("$[0].message",is("Test Comment 1")))
 
                 .andExpect(jsonPath("$[1].commentId",is(2)))
-                .andExpect(jsonPath("$[1].videoId",is(2)))
                 .andExpect(jsonPath("$[1].userId",is(2)))
-                .andExpect(jsonPath("$[1].comment",is("Test Comment 2")));
+                .andExpect(jsonPath("$[1].message",is("Test Comment 2")));
     }
+
     @Test
     @DisplayName("Get /comments/create - Successful")
     public void testCreateComment() throws Exception{
 
         Comment mockComment = new Comment(1L , 1L,"Test Comment 1");
 
-        given(commentService.create(mockComment)).willReturn(mockComment);
+        given(commentService.create(1L,mockComment)).willReturn(mockComment);
         mockMvc.perform(post("/zc-video-app/comments/create")
                 .contentType(MediaType.APPLICATION_JSON));
     }
+
 }

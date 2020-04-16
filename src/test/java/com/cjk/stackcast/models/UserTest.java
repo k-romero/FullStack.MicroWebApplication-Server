@@ -78,15 +78,56 @@ public class UserTest {
         Video video3 = new Video();
         Video[] videos = new Video[]{video1,video2,video3};
         testUser.setUserVideos(Arrays.asList(videos));
-
         int expected = 3;
         int actual = testUser.getUserVideos().size();
-
         assertEquals(expected,actual);
     }
 
+    @Test
+    void getConnectionStatus(){
+        assertFalse(testUser.getIsConnected());
+    }
 
+    @Test
+    void setConnectionStatus(){
+        testUser.setIsConnected(true);
+        assertTrue(testUser.getIsConnected());
+    }
 
+    @Test
+    void nullConstructorTest(){
+        User user = new User();
+        assertNull(user.getId());
+    }
+
+    @Test
+    void constructor2ParamTest(){
+        User testUser = new User("testUserName","testPassword");
+        assertEquals("testUserName",testUser.getUserName());
+        assertEquals("testPassword",testUser.getPassword());
+    }
+
+    @Test
+    void constructor3ParamTest(){
+        User testUser = new User(1L,"testUserName","testPassword");
+        Long expectedId = 1L;
+        Long actualId = testUser.getId();
+        assertEquals(expectedId,actualId);
+        assertEquals("testUserName",testUser.getUserName());
+        assertEquals("testPassword",testUser.getPassword());
+    }
+
+    @Test
+    void constructor4ParamTest(){
+        User testUser = new User(1L,"testUserName","testPassword",LocalDate.now(),true);
+        Long expectedId = 1L;
+        Long actualId = testUser.getId();
+        assertEquals(expectedId,actualId);
+        assertEquals("testUserName",testUser.getUserName());
+        assertEquals("testPassword",testUser.getPassword());
+        assertNotNull(testUser.getDateCreated());
+        assertTrue(testUser.getIsConnected());
+    }
 
 
 }

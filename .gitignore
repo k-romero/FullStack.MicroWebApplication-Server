@@ -1,6 +1,4 @@
-HELP.md
-target/
-src/main/resources/application-dev.properties
+
 ### STS ###
 .apt_generated
 .classpath
@@ -32,3 +30,8 @@ build/
 .mvn
 mvnw
 mvnw.cmd
+HELP.md
+target/
+
+src/main/resources/application-dev.properties
+src/main/resources/application-ps.properties

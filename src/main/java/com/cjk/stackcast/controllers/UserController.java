@@ -1,5 +1,6 @@
 package com.cjk.stackcast.controllers;
 
+import com.cjk.stackcast.models.TestUser;
 import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -44,6 +46,12 @@ public class UserController {
                 .orElse(ResponseEntity
                         .notFound()
                         .build());
+    }
+
+    @GetMapping(produces = "application/json")
+    @RequestMapping({ "/validateLogin" })
+    public TestUser validateLogin() {
+        return new TestUser("User successfully authenticated");
     }
 
     @RequestMapping("/show")

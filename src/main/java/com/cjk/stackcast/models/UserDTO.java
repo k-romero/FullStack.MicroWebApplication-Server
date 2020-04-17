@@ -2,15 +2,15 @@ package com.cjk.stackcast.models;
 
 public class UserDTO {
 
-    private String username;
+    private String userName;
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     public String getPassword() {
@@ -21,4 +21,11 @@ public class UserDTO {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

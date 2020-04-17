@@ -4,7 +4,6 @@ import com.cjk.stackcast.models.DAOUser;
 import com.cjk.stackcast.models.UserDTO;
 import com.cjk.stackcast.repositories.UserDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,8 +34,9 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public DAOUser save(UserDTO user) {
+        System.out.println(user.toString());
         DAOUser newUser = new DAOUser();
-        newUser.setUserName(user.getUsername());
+        newUser.setUserName(user.getUserName());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         return userDaoRepository.save(newUser);
     }

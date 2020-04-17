@@ -4,13 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 @Entity
 @Table(name = "Users")
@@ -120,20 +116,6 @@ public class DAOUser {
 
     public void setIsConnected(Boolean connected) {
         isConnected = connected;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DAOUser DAOUser = (DAOUser) o;
-        return Objects.equals(id, DAOUser.id) &&
-                Objects.equals(userName, DAOUser.userName) &&
-                Objects.equals(password, DAOUser.password) &&
-                Objects.equals(dateCreated, DAOUser.dateCreated) &&
-                Objects.equals(isConnected, DAOUser.isConnected) &&
-                Objects.equals(userVideos, DAOUser.userVideos);
     }
 
 }

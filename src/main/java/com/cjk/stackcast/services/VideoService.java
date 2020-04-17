@@ -60,13 +60,6 @@ public class VideoService {
             return false;
     }
 
-    public List<Comment> findAllCommentsByVideoId(Long videoId) throws Exception {
-        Optional<Video> foundVideo = repo.findById(videoId);
-        if(foundVideo.isPresent()){
-            return foundVideo.get().getComments();
-        } else throw new Exception("No video was found with that id!");
-    }
-
     public Video setUser(Long videoId, Long userId){
         Video video = repo.getOne(videoId);
         video.setUserId(userId);

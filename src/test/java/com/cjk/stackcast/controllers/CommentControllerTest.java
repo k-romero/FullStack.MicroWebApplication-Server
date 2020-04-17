@@ -12,8 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +42,9 @@ public class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /comments/showComment/1 - Found")
     public void testShowCommentFound() throws Exception{
         Comment mockComment = new Comment(1L, 1L,"Test Comment");
@@ -58,6 +62,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /comments/showComment/1 - Not Found")
     public void testShowCommentNotFound() throws Exception{
 
@@ -68,6 +73,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /comments/show - Found")
     public void testShowAllComments() throws Exception{
         Comment mockComment1 = new Comment(1L, 1L,"Test Comment 1");
@@ -90,6 +96,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /comments/create - Successful")
     public void testCreateComment() throws Exception{
 

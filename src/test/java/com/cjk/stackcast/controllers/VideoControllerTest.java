@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,6 +34,7 @@ public class VideoControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /videos/show/1 - Found")
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
@@ -56,6 +58,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("GET /videos/show/1 - Not Found")
     void testGetVideoByIdNotFound() throws Exception {
         //Setup our mocked service
@@ -69,6 +72,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updateName/{id}")
     void testUpdateName() throws Exception{
         //Given
@@ -90,6 +94,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/incrementViews/{id}")
     void testIncrementViews() throws Exception{
         //Given
@@ -111,6 +116,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updatePath/{id}")
     void testUpdatePath() throws Exception{
         //Given
@@ -132,6 +138,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/setUser/{id}")
     void testSetUser() throws Exception{
         //Given

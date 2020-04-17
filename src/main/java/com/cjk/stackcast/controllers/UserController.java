@@ -1,16 +1,11 @@
 package com.cjk.stackcast.controllers;
 
 import com.cjk.stackcast.models.DAOUser;
-import com.cjk.stackcast.models.TestUser;
 import com.cjk.stackcast.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping(value = "/zc-video-app/users")
@@ -35,8 +30,8 @@ public class UserController {
                         .build());
     }
 
-    @GetMapping("/find")
-    public ResponseEntity<?> show(@RequestParam String userName){
+    @GetMapping("/find/{userName}")
+    public ResponseEntity<?> show(@PathVariable String userName){
         return this.service.findByUserName(userName)
                 .map(user -> ResponseEntity
                         .ok()
@@ -46,28 +41,9 @@ public class UserController {
                         .build());
     }
 
-    @GetMapping(produces = "application/json")
-    @RequestMapping({ "/validateLogin" })
-    public TestUser validateLogin() {
-        return new TestUser("User successfully authenticated");
-    }
-
     @RequestMapping("/show")
     public ResponseEntity<Iterable<DAOUser>> showAll(){
         return new ResponseEntity<>(service.showAll(), HttpStatus.OK);
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<DAOUser> create(@RequestBody DAOUser DAOUser, BindingResult bindingResult){
-        //TODO create validation forms to check user credentials are long enough
-        DAOUser newDAOUser = this.service.create(DAOUser);
-        try {
-            return ResponseEntity
-                    .created(new URI("/create/" + newDAOUser.getId()))
-                    .body(newDAOUser);
-        }catch (URISyntaxException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @PutMapping("/updateName/{userId}")
@@ -89,6 +65,5 @@ public class UserController {
     public ResponseEntity<Boolean> userDelete(@PathVariable Long userId){
         return new ResponseEntity<>(service.deleteUser(userId),HttpStatus.OK);
     }
-
 
 }

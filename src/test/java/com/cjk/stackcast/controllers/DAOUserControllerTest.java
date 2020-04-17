@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -39,6 +40,7 @@ public class DAOUserControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /users/show/1 - Found")
     void testGetUserByIdFound() throws Exception{
         //Setup mocked user
@@ -55,11 +57,11 @@ public class DAOUserControllerTest {
 
                 // Validate the returned fields
                 .andExpect(jsonPath("$.userName",is("testUserName")))
-                .andExpect(jsonPath("$.password",is("testPassword")))
                 .andExpect(jsonPath("$.isConnected",is(false)));
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("GET /users/show/1 - Not Found")
     void testGetUserByIdNotFound() throws Exception {
         //Setup our mocked service
@@ -73,6 +75,7 @@ public class DAOUserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /users/find - Found")
     void testGetUserByUserNameFound() throws Exception{
         //Setup mocked user
@@ -81,8 +84,7 @@ public class DAOUserControllerTest {
         doReturn(Optional.of(mockDAOUser)).when(service).findByUserName("testUserName");
 
         //Execute the Get request
-        mockMvc.perform(get("/zc-video-app/users/find")
-                .param("userName","testUserName"))
+        mockMvc.perform(get("/zc-video-app/users/find/testUserName"))
 
                 // Validate the response code and content type
                 .andExpect(status().isOk())
@@ -90,11 +92,11 @@ public class DAOUserControllerTest {
 
                 // Validate the returned fields
                 .andExpect(jsonPath("$.userName",is("testUserName")))
-                .andExpect(jsonPath("$.password",is("testPassword")))
                 .andExpect(jsonPath("$.isConnected",is(false)));
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("GET /users/show - Found All")
     void testGetAllUsersFound() throws Exception {
         //Setup our mocked service
@@ -113,36 +115,11 @@ public class DAOUserControllerTest {
 
                 .andExpect(jsonPath("$.*").isArray())
                 .andExpect(jsonPath("$[0].userName", is("testUserName")))
-                .andExpect(jsonPath("$[0].password", is("testPassword")))
-                .andExpect(jsonPath("$[1].userName", is("testUserName2")))
-                .andExpect(jsonPath("$[1].password", is("testPassword2")));
+                .andExpect(jsonPath("$[1].userName", is("testUserName2")));
     }
 
     @Test
-    @DisplayName("Post /users/create - Created")
-    void testCreateUser() throws Exception {
-        //Setup our mocked service
-        DAOUser mockDAOUser = new DAOUser(1L, "testUserName", "testPassword", LocalDate.now(),true);
-        DAOUser postDAOUser = new DAOUser(1L, "testUserName", "testPassword", LocalDate.now(),true);
-
-        given(service.create(postDAOUser)).willReturn(mockDAOUser);
-        //Execute the Post request
-        mockMvc.perform(post("/zc-video-app/users/create")
-                .contentType(MediaType.APPLICATION_JSON)
-
-                .content(asJsonString(postDAOUser))
-                )
-                //Validate that we get a 200
-
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().string(HttpHeaders.LOCATION,"/create/1"))
-
-                .andExpect(jsonPath("$.userName", is("testUserName")))
-                .andExpect(jsonPath("$.password", is("testPassword")));
-    }
-
-    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Put /users/updateName - Success")
     void testUpdateUserName() throws Exception {
         //Setup our mocked service
@@ -162,11 +139,11 @@ public class DAOUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
-                .andExpect(jsonPath("$.userName", is(newUserName)))
-                .andExpect(jsonPath("$.password", is("testPassword")));
+                .andExpect(jsonPath("$.userName", is(newUserName)));
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Put /users/updatePw - Success")
     void testUpdatePassword() throws Exception {
         //Setup our mocked service
@@ -186,11 +163,11 @@ public class DAOUserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
-                .andExpect(jsonPath("$.userName", is("testUserName")))
-                .andExpect(jsonPath("$.password", is(newPassWord)));
+                .andExpect(jsonPath("$.userName", is("testUserName")));
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Put /users/login - Success")
     void testUpdateLoginStatus() throws Exception {
         //Setup our mocked service
@@ -209,7 +186,6 @@ public class DAOUserControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(jsonPath("$.userName", is("testUserName")))
-                .andExpect(jsonPath("$.password", is("testPassword")))
                 .andExpect(jsonPath("$.isConnected", is(true)));
     }
 

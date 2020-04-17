@@ -30,3 +30,5 @@ build/
 ### Application Properties ###
 .DS_Store
 .mvn
+mvnw
+mvnw.cmd

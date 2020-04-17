@@ -14,21 +14,18 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class DAOUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long id;
 
-    @NotEmpty(message = "UserName may not be empty")
-    @Size(min=4, max=20)
     @Column(name = "USER_NAME")
     private String userName;
 
-    @NotEmpty(message = "Password may not be empty")
-    @Size(min=6, max=20)
     @Column(name = "PASSWORD")
+    @JsonIgnore
     private String password;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -44,21 +41,21 @@ public class User {
     private List<Video> userVideos;
 
 
-    public User(String userName) {
+    public DAOUser(String userName) {
         this.userName = userName;
         this.password = "";
         this.dateCreated = LocalDate.now();
         this.userVideos = new ArrayList<>();
     }
 
-    public User(String userName,String password) {
+    public DAOUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
         this.dateCreated = LocalDate.now();
         this.userVideos = new ArrayList<>();
     }
 
-    public User(Long id, String userName,String password) {
+    public DAOUser(Long id, String userName, String password) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -66,7 +63,7 @@ public class User {
         this.userVideos = new ArrayList<>();
     }
 
-    public User(Long id,String userName, String password, LocalDate date, Boolean isConnected) {
+    public DAOUser(Long id, String userName, String password, LocalDate date, Boolean isConnected) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -74,7 +71,7 @@ public class User {
         this.isConnected = isConnected;
     }
 
-    public User() {
+    public DAOUser() {
     }
 
     public Long getId() {
@@ -130,13 +127,13 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(dateCreated, user.dateCreated) &&
-                Objects.equals(isConnected, user.isConnected) &&
-                Objects.equals(userVideos, user.userVideos);
+        DAOUser DAOUser = (DAOUser) o;
+        return Objects.equals(id, DAOUser.id) &&
+                Objects.equals(userName, DAOUser.userName) &&
+                Objects.equals(password, DAOUser.password) &&
+                Objects.equals(dateCreated, DAOUser.dateCreated) &&
+                Objects.equals(isConnected, DAOUser.isConnected) &&
+                Objects.equals(userVideos, DAOUser.userVideos);
     }
 
 }

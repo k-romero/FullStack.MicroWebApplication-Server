@@ -1,7 +1,7 @@
 package com.cjk.stackcast.services;
 
-import com.cjk.stackcast.models.User;
-import com.cjk.stackcast.repositories.UserRepository;
+import com.cjk.stackcast.models.DAOUser;
+import com.cjk.stackcast.repositories.UserDaoRepository;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,37 +23,37 @@ import static org.mockito.Mockito.doReturn;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserServiceTest {
+public class DAOUserServiceTest {
 
     @Autowired
     private UserService userService;
 
     @MockBean
-    private UserRepository userRepository;
+    private UserDaoRepository userDaoRepository;
 
 
     @Test
     @DisplayName("Test findById Success")
     public void testFindByIdSuccess(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(Optional.of(mockUser)).when(userRepository).findById(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(Optional.of(mockDAOUser)).when(userDaoRepository).findById(1L);
 
         // Execute call
-        Optional<User> returnUser = userService.showUser(1L);
+        Optional<DAOUser> returnUser = userService.showUser(1L);
 
         Assertions.assertTrue(returnUser.isPresent(), "No User was found when there should be");
-        Assertions.assertSame(returnUser.get(),mockUser, "Models don't match up");
+        Assertions.assertSame(returnUser.get(), mockDAOUser, "Models don't match up");
     }
 
     @Test
     @DisplayName("Test findById Fail")
     public void testFindByIdFail(){
         // Set up mock object and repository
-        doReturn(Optional.empty()).when(userRepository).findById(1L);
+        doReturn(Optional.empty()).when(userDaoRepository).findById(1L);
 
         // Execute call
-        Optional<User> returnUser = userService.showUser(1L);
+        Optional<DAOUser> returnUser = userService.showUser(1L);
 
         Assertions.assertFalse(returnUser.isPresent(), "User was found when there shouldn't be");
     }
@@ -62,51 +62,51 @@ public class UserServiceTest {
     @DisplayName("Test findAll")
     public void testFindAll(){
         // Set up mock object and repository
-        User mockUser1 = new User("testUserName1", "testPassWord1");
-        User mockUser2 = new User("testUserName2", "testPassWord2");
-        doReturn(Arrays.asList(mockUser1,mockUser2)).when(userRepository).findAll();
+        DAOUser mockDAOUser1 = new DAOUser("testUserName1", "testPassWord1");
+        DAOUser mockDAOUser2 = new DAOUser("testUserName2", "testPassWord2");
+        doReturn(Arrays.asList(mockDAOUser1, mockDAOUser2)).when(userDaoRepository).findAll();
 
         // Execute call
-        List<User> returnListUser = (List<User>) userService.showAll();
+        List<DAOUser> returnListDAOUser = (List<DAOUser>) userService.showAll();
 
         // Check assertions
-        Assertions.assertEquals(2,returnListUser.size(),"findAll should return 2 users");
+        Assertions.assertEquals(2, returnListDAOUser.size(),"findAll should return 2 users");
     }
 
     @Test
     @DisplayName("Test findByUserName Success")
     public void testFindByUserNameSuccess(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(Optional.of(mockUser)).when(userRepository).findUserByUserName("testUserName");
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(Optional.of(mockDAOUser)).when(userDaoRepository).findUserByUserName("testUserName");
 
         // Execute call
-        Optional<User> returnUser = userService.findByUserName("testUserName");
+        Optional<DAOUser> returnUser = userService.findByUserName("testUserName");
 
         Assertions.assertTrue(returnUser.isPresent(), "No User was found when there should be");
-        Assertions.assertSame(returnUser.get(),mockUser, "Models don't match up");
+        Assertions.assertSame(returnUser.get(), mockDAOUser, "Models don't match up");
     }
 
     @Test
     @DisplayName("Test save User")
     public void testSave(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(any());
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).save(any());
 
         // Execute call
-        User returnUser = userService.create(mockUser);
+        DAOUser returnDAOUser = userService.create(mockDAOUser);
 
-        Assertions.assertNotNull(returnUser, "The save user should not be null");
+        Assertions.assertNotNull(returnDAOUser, "The save user should not be null");
     }
 
     @Test
     @DisplayName("Test update UserName")
     public void updateUserName(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(mockUser);
-        doReturn(mockUser).when(userRepository).getOne(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).save(mockDAOUser);
+        doReturn(mockDAOUser).when(userDaoRepository).getOne(1L);
         String expected = "updatedUserName2020";
 
         // Execute call
@@ -120,9 +120,9 @@ public class UserServiceTest {
     @DisplayName("Test update password")
     public void updatePassWord(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(mockUser);
-        doReturn(mockUser).when(userRepository).getOne(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).save(mockDAOUser);
+        doReturn(mockDAOUser).when(userDaoRepository).getOne(1L);
         String expected = "updatedPassWord2020";
 
         // Execute call
@@ -136,9 +136,9 @@ public class UserServiceTest {
     @DisplayName("Test update connection")
     public void updateConnection(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(mockUser);
-        doReturn(mockUser).when(userRepository).getOne(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).save(mockDAOUser);
+        doReturn(mockDAOUser).when(userDaoRepository).getOne(1L);
 
         // Execute call
         Boolean actual =  userService.updateConnection(1L).getIsConnected();
@@ -151,9 +151,9 @@ public class UserServiceTest {
     @DisplayName("Test update connection false")
     public void updateConnectionFalse(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).save(mockUser);
-        doReturn(mockUser).when(userRepository).getOne(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).save(mockDAOUser);
+        doReturn(mockDAOUser).when(userDaoRepository).getOne(1L);
 
         // Execute call
         userService.updateConnection(1L);
@@ -167,8 +167,8 @@ public class UserServiceTest {
     @DisplayName("Test delete User success")
     public void deleteUserTest(){
         // Set up mock object and repository
-        User mockUser = new User("testUserName", "testPassWord");
-        doReturn(mockUser).when(userRepository).getOne(1L);
+        DAOUser mockDAOUser = new DAOUser("testUserName", "testPassWord");
+        doReturn(mockDAOUser).when(userDaoRepository).getOne(1L);
 
         // Execute call
         Boolean actual =  userService.deleteUser(1L);

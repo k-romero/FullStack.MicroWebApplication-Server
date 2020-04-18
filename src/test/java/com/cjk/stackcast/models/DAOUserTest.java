@@ -7,67 +7,67 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class UserTest {
+public class DAOUserTest {
 
-    User testUser = new User("BobSmith");
+    DAOUser testDAOUser = new DAOUser("BobSmith");
 
     @Test
     void getUserId(){
         Long expected = 1L;
-        Long actual = testUser.getId();
+        Long actual = testDAOUser.getId();
         assertNotEquals(expected,actual);
     }
 
     @Test
     void setUserId(){
         Long expected = 1L;
-        testUser.setId(expected);
-        Long actual = testUser.getId();
+        testDAOUser.setId(expected);
+        Long actual = testDAOUser.getId();
         assertEquals(expected,actual);
     }
 
     @Test
     void getPasswordTest() {
         String expected = "";
-        String actual = testUser.getPassword();
+        String actual = testDAOUser.getPassword();
         assertEquals(expected,actual);
     }
 
     @Test
     void setPasswordTest() {
         String expected = "testSample";
-        testUser.setPassword(expected);
-        String actual = testUser.getPassword();
+        testDAOUser.setPassword(expected);
+        String actual = testDAOUser.getPassword();
         assertEquals(expected,actual);
     }
 
     @Test
     void getUserNameTest() {
         String expected = "BobSmith";
-        String actual = testUser.getUserName();
+        String actual = testDAOUser.getUserName();
         assertEquals(expected,actual);
     }
 
     @Test
     void setUserNameTest() {
         String expected = "JeffTheGreat";
-        testUser.setUserName(expected);
-        String actual = testUser.getUserName();
+        testDAOUser.setUserName(expected);
+        String actual = testDAOUser.getUserName();
         assertEquals(expected,actual);
     }
 
     @Test
     void dateCreatedTest() {
         LocalDate expected = LocalDate.now();
-        LocalDate actual = testUser.getDateCreated();
+        LocalDate actual = testDAOUser.getDateCreated();
         assertEquals(expected,actual);
     }
 
     @Test
     void setDateCreatedTest() {
         LocalDate expected = LocalDate.now();
-        testUser.setDateCreated(expected);
-        LocalDate actual = testUser.getDateCreated();
+        testDAOUser.setDateCreated(expected);
+        LocalDate actual = testDAOUser.getDateCreated();
         assertEquals(expected,actual);
     }
 
@@ -77,56 +77,56 @@ public class UserTest {
         Video video2 = new Video();
         Video video3 = new Video();
         Video[] videos = new Video[]{video1,video2,video3};
-        testUser.setUserVideos(Arrays.asList(videos));
+        testDAOUser.setUserVideos(Arrays.asList(videos));
         int expected = 3;
-        int actual = testUser.getUserVideos().size();
+        int actual = testDAOUser.getUserVideos().size();
         assertEquals(expected,actual);
     }
 
     @Test
     void getConnectionStatus(){
-        assertFalse(testUser.getIsConnected());
+        assertFalse(testDAOUser.getIsConnected());
     }
 
     @Test
     void setConnectionStatus(){
-        testUser.setIsConnected(true);
-        assertTrue(testUser.getIsConnected());
+        testDAOUser.setIsConnected(true);
+        assertTrue(testDAOUser.getIsConnected());
     }
 
     @Test
     void nullConstructorTest(){
-        User user = new User();
-        assertNull(user.getId());
+        DAOUser DAOUser = new DAOUser();
+        assertNull(DAOUser.getId());
     }
 
     @Test
     void constructor2ParamTest(){
-        User testUser = new User("testUserName","testPassword");
-        assertEquals("testUserName",testUser.getUserName());
-        assertEquals("testPassword",testUser.getPassword());
+        DAOUser testDAOUser = new DAOUser("testUserName","testPassword");
+        assertEquals("testUserName", testDAOUser.getUserName());
+        assertEquals("testPassword", testDAOUser.getPassword());
     }
 
     @Test
     void constructor3ParamTest(){
-        User testUser = new User(1L,"testUserName","testPassword");
+        DAOUser testDAOUser = new DAOUser(1L,"testUserName","testPassword");
         Long expectedId = 1L;
-        Long actualId = testUser.getId();
+        Long actualId = testDAOUser.getId();
         assertEquals(expectedId,actualId);
-        assertEquals("testUserName",testUser.getUserName());
-        assertEquals("testPassword",testUser.getPassword());
+        assertEquals("testUserName", testDAOUser.getUserName());
+        assertEquals("testPassword", testDAOUser.getPassword());
     }
 
     @Test
     void constructor4ParamTest(){
-        User testUser = new User(1L,"testUserName","testPassword",LocalDate.now(),true);
+        DAOUser testDAOUser = new DAOUser(1L,"testUserName","testPassword",LocalDate.now(),true);
         Long expectedId = 1L;
-        Long actualId = testUser.getId();
+        Long actualId = testDAOUser.getId();
         assertEquals(expectedId,actualId);
-        assertEquals("testUserName",testUser.getUserName());
-        assertEquals("testPassword",testUser.getPassword());
-        assertNotNull(testUser.getDateCreated());
-        assertTrue(testUser.getIsConnected());
+        assertEquals("testUserName", testDAOUser.getUserName());
+        assertEquals("testPassword", testDAOUser.getPassword());
+        assertNotNull(testDAOUser.getDateCreated());
+        assertTrue(testDAOUser.getIsConnected());
     }
 
 

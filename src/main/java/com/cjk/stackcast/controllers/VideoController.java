@@ -1,6 +1,5 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,6 @@ public class VideoController {
         if(tempVideo != null){
             return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
-
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 

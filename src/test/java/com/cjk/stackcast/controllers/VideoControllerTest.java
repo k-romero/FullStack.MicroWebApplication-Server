@@ -1,6 +1,5 @@
 package com.cjk.stackcast.controllers;
 
-import com.cjk.stackcast.models.User;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,6 +34,7 @@ public class VideoControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("Get /videos/show/1 - Found")
     void testGetVideoByIdFound() throws Exception{
         //Setup mocked video
@@ -60,6 +58,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("GET /videos/show/1 - Not Found")
     void testGetVideoByIdNotFound() throws Exception {
         //Setup our mocked service
@@ -73,6 +72,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updateName/{id}")
     void testUpdateName() throws Exception{
         //Given
@@ -94,6 +94,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/incrementViews/{id}")
     void testIncrementViews() throws Exception{
         //Given
@@ -115,6 +116,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updatePath/{id}")
     void testUpdatePath() throws Exception{
         //Given
@@ -136,6 +138,7 @@ public class VideoControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/setUser/{id}")
     void testSetUser() throws Exception{
         //Given

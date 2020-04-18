@@ -84,12 +84,13 @@ public class VideoService {
         return repo.save(video);
     }
 
-    public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
+    public Video uploadVideo(String videoName, Long userId, MultipartFile multipartFile) throws Exception{
         File file = convertMultiPartFile(multipartFile);
         String fileName = generateFileName(file.getName());
         Video video = new Video(videoName,multipartFile.getContentType(),fileName);
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
+        video.setUserId(userId);
         if(uploadFile(file,fileName).isSuccessful()){
             return saveVideo(video);
         } else
@@ -117,9 +118,10 @@ public class VideoService {
     }
 
     public void verifyFileType(String videoName, MultipartFile multipartFile) throws Exception{
+        Long placeHolderUserId = 1L;
         ArrayList<String> validFileTypes = new ArrayList<>(Arrays.asList("video/mp4","video/mov"));
         if(validFileTypes.contains(multipartFile.getContentType())){
-            uploadVideo(videoName, multipartFile);
+            uploadVideo(videoName, placeHolderUserId,multipartFile);
         } else {
             throw new InputMismatchException("Invalid file type. Only video files are allowed");
         }

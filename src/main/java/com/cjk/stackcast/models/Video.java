@@ -1,6 +1,10 @@
 package com.cjk.stackcast.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Video {
@@ -22,10 +26,13 @@ public class Video {
     @Column(name = "USER_ID")
     private Long userId;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "video")
+    List<Comment> comments;
+
     public Video(String videoName, String videoPath) {
         this.videoName = videoName;
         this.videoPath = videoPath;
-        this.videoType = videoType;
+        this.videoType = "";
         videoViews = 0;
         originalVideoKey = "";
     }
@@ -35,8 +42,10 @@ public class Video {
         this.videoName = videoName;
         this.videoPath = videoPath;
         this.videoType = videoType;
-        videoViews = 0;
-        originalVideoKey = "";
+        this.videoViews = 0;
+        this.originalVideoKey = "";
+        this.userId = 0L;
+        this.comments = new ArrayList<>();
     }
 
     public Video(String videoName, String videoType, String originalVideoKey) {
@@ -104,5 +113,27 @@ public class Video {
 
     public void setOriginalVideoKey(String originalVideoKey) {
         this.originalVideoKey = originalVideoKey;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "videoId=" + videoId +
+                ", videoName='" + videoName + '\'' +
+                ", videoPath='" + videoPath + '\'' +
+                ", videoType='" + videoType + '\'' +
+                ", videoViews=" + videoViews +
+                ", originalVideoKey='" + originalVideoKey + '\'' +
+                ", userId=" + userId +
+                ", comments=" + comments +
+                '}';
     }
 }

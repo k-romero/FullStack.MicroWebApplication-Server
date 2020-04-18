@@ -8,9 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 
 @RestController
 @RequestMapping(value = "/zc-video-app/videos")
+@CrossOrigin
 public class VideoController {
 
     @Autowired
@@ -38,17 +42,24 @@ public class VideoController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Video> createBasicVideo(@RequestBody Video video) throws Exception {
-        return new ResponseEntity<>(service.createVideo(video),HttpStatus.CREATED);
+    public ResponseEntity<Video> create(@RequestBody Video video){
+        Video newVideo = this.service.saveVideo(video);
+        try {
+            return ResponseEntity
+                    .created(new URI("/create/" + newVideo.getVideoId()))
+                    .body(newVideo);
+        }catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<Video> uploadVideoToCloud(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
-        Video tempVideo = service.uploadVideo(videoName,multipartFile);
+    @PostMapping("/upload/{userId}")
+    public ResponseEntity<Video> uploadVideoToCloud(@PathVariable Long userId, @RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        Video tempVideo = service.uploadVideo(videoName,userId,multipartFile);
         if(tempVideo != null){
+            System.out.println(tempVideo.toString());
             return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
-
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 

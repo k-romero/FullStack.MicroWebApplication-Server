@@ -33,7 +33,6 @@ public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
-
     @Test
     @DisplayName("Test findById Success")
     public void testFindByIdSuccess(){
@@ -73,7 +72,7 @@ public class VideoServiceTest {
         doReturn(mockVideo1).when(videoRepository).save(any());
 
         // Execute call
-        Video returnVideo = videoService.createVideo(mockVideo1);
+        Video returnVideo = videoService.saveVideo(mockVideo1);
 
         Assertions.assertNotNull(returnVideo, "The saved video should not be null");
     }

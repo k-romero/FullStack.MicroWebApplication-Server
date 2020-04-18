@@ -14,5 +14,10 @@
       "name": "cloud.aws.credentials.bucket",
       "type": "java.lang.String",
       "description": "Description for cloud.aws.credentials.bucket."
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Description for jwt.secret."
     }
   ] }

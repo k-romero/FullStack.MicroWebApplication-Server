@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class VideoTest {
@@ -58,8 +60,8 @@ class VideoTest {
     @Test
     void setVideoPath() {
         String expected = "https://zip-code-video-app.s3.amazonaws.com/test-video.mp4";
-        testVideo.setVideoName(expected);
-        String actual = testVideo.getVideoName();
+        testVideo.setVideoPath(expected);
+        String actual = testVideo.getVideoPath();
         assertEquals(expected,actual);
     }
 
@@ -113,5 +115,43 @@ class VideoTest {
         testVideo.setOriginalVideoKey(expected);
         String actual = testVideo.getOriginalVideoKey();
         assertEquals(expected,actual);
+    }
+
+    @Test
+    void getCommentsTest(){
+        assertNull(testVideo.getComments());
+    }
+
+    @Test
+    void setComments(){
+        testVideo.setComments(Arrays.asList(new Comment(), new Comment(), new Comment()));
+        assertEquals(3, testVideo.getComments().size());
+    }
+
+    @Test
+    void constructor2ParamTest(){
+        Video vidTest = new Video("Testing Video","http://testvideopath.test");
+        assertEquals("Testing Video",vidTest.getVideoName());
+        assertEquals("http://testvideopath.test",vidTest.getVideoPath());
+    }
+
+    @Test
+    void constructor3ParamTest(){
+        Video vidTest = new Video("Testing Video","video/mp4","testvideo.mp4");
+        Long expectedId = vidTest.getVideoId();
+        assertEquals(expectedId,vidTest.getVideoId());
+        assertEquals("Testing Video",vidTest.getVideoName());
+        assertEquals("video/mp4",vidTest.getVideoType());
+        assertEquals("testvideo.mp4",vidTest.getOriginalVideoKey());
+    }
+
+    @Test
+    void constructor4ParamTest(){
+        Video vidTest = new Video(1L,"Testing Video","http://testvideopath.test","video/mp4");
+        Long expectedId = vidTest.getVideoId();
+        assertEquals(expectedId,vidTest.getVideoId());
+        assertEquals("Testing Video",vidTest.getVideoName());
+        assertEquals("http://testvideopath.test",vidTest.getVideoPath());
+        assertEquals("video/mp4",vidTest.getVideoType());
     }
 }

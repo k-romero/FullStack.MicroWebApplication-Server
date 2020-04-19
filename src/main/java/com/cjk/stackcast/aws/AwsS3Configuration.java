@@ -24,8 +24,6 @@ public class AwsS3Configuration {
 
     private final Region region = Region.US_EAST_1;
 
-    private final String endPointUrl = "https://zip-code-video-app.s3.amazonaws.com";
-
     @Bean
     public String getBucket(){
         return this.bucket;
@@ -41,7 +39,7 @@ public class AwsS3Configuration {
     }
 
     public String getEndPointUrl(){
-        return endPointUrl;
+        return "https://zip-code-video-app.s3.amazonaws.com";
     }
 
 }

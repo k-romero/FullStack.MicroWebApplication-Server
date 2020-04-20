@@ -53,10 +53,11 @@ public class VideoController {
         }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<Video> uploadVideoToCloud(@RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
-        Video tempVideo = service.uploadVideo(videoName,multipartFile);
+    @PostMapping("/upload/{userId}")
+    public ResponseEntity<Video> uploadVideoToCloud(@PathVariable Long userId, @RequestParam String videoName, @RequestPart(value = "file") MultipartFile multipartFile) throws Exception {
+        Video tempVideo = service.uploadVideo(videoName,userId,multipartFile);
         if(tempVideo != null){
+            System.out.println(tempVideo.toString());
             return new ResponseEntity<>(tempVideo,HttpStatus.CREATED);
         } else
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);

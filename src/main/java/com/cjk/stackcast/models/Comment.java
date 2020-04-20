@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Entity
 public class Comment {
@@ -12,6 +13,8 @@ public class Comment {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private Long commentId;
     private Long userId;
+    private String username;
+    private Date dateCreated;
     @NotEmpty(message = "Comment message cannot be empty!")
     private String message;
     @JsonIgnore
@@ -64,5 +67,21 @@ public class Comment {
 
     public void setVideo(Video video) {
         this.video = video;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }

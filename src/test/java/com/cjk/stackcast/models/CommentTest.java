@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.*;
 
 public class CommentTest {
@@ -49,6 +52,22 @@ public class CommentTest {
         assertNull(comment.getCommentId());
         comment.setMessage("First Comment");
         assertEquals("First Comment", comment.getMessage());
+    }
+
+    @Test
+    public void userNameTests(){
+        assertNull(comment.getUsername());
+        comment.setUsername("TestUser");
+        assertEquals("TestUser", comment.getUsername());
+    }
+
+    @Test
+    public void dateTest() throws InterruptedException {
+        assertNull(comment.getDateCreated());
+        comment.setDateCreated(new Date());
+        TimeUnit.SECONDS.sleep(1);
+        Date test = new Date();
+        assertTrue(test.getTime() > comment.getDateCreated().getTime());
     }
 
     @Test

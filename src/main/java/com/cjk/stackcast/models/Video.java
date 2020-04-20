@@ -122,4 +122,18 @@ public class Video {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "videoId=" + videoId +
+                ", videoName='" + videoName + '\'' +
+                ", videoPath='" + videoPath + '\'' +
+                ", videoType='" + videoType + '\'' +
+                ", videoViews=" + videoViews +
+                ", originalVideoKey='" + originalVideoKey + '\'' +
+                ", userId=" + userId +
+                ", comments=" + comments +
+                '}';
+    }
 }

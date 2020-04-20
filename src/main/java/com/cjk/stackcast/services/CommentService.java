@@ -6,6 +6,7 @@ import com.cjk.stackcast.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,9 @@ public class CommentService {
     public Comment create(Long videoId, Comment comment) throws Exception {
         Optional<Video> foundVideo = videoService.show(videoId);
         if(foundVideo.isPresent()){
-            Comment commentToAdd = commentRepo.save(comment);
+            Comment baseComment = comment;
+            baseComment.setDateCreated(new Date());
+            Comment commentToAdd = commentRepo.save(baseComment);
             Video videoToSave = foundVideo.get();
             commentToAdd.setVideo(videoToSave);
             videoToSave.getComments().add(commentToAdd);

@@ -74,8 +74,9 @@ public class VideoController {
         return new ResponseEntity<>(service.updateVideoName(id,videoName), HttpStatus.OK);
     }
 
-    @PutMapping("/incrementViews/{id}")
+    @GetMapping("/incrementViews/{id}")
     public ResponseEntity<Video> incrementViews(@PathVariable Long id) {
+        System.out.println("this is firing off with id =" + id);
         return new ResponseEntity<>(service.incrementVideoViews(id), HttpStatus.OK);
     }
 
@@ -86,6 +87,6 @@ public class VideoController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteVideo(@PathVariable Long id) {
-        return new ResponseEntity<>(service.delete(id),HttpStatus.GONE);
+        return new ResponseEntity<>(service.delete(id),HttpStatus.OK);
     }
 }

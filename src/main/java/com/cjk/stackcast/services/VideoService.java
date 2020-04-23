@@ -91,6 +91,8 @@ public class VideoService {
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
         video.setUserId(userId);
+        video.setVideoViews(0);
+        video.setOriginalVideoKey(fileName);
         if(uploadFile(file,fileName).isSuccessful()){
             return saveVideo(video);
         } else

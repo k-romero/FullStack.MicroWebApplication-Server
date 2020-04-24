@@ -76,8 +76,17 @@ public class VideoController {
 
     @GetMapping("/incrementViews/{id}")
     public ResponseEntity<Video> incrementViews(@PathVariable Long id) {
-        System.out.println("this is firing off with id =" + id);
         return new ResponseEntity<>(service.incrementVideoViews(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/incrementLikes/{id}")
+    public ResponseEntity<Video> incrementLikes(@PathVariable Long id) {
+        return new ResponseEntity<>(service.incrementLikes(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/incrementDisLikes/{id}")
+    public ResponseEntity<Video> incrementDisLikes(@PathVariable Long id) {
+        return new ResponseEntity<>(service.incrementDisLikes(id), HttpStatus.OK);
     }
 
     @PutMapping("/updatePath/{id}")

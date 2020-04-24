@@ -143,6 +143,50 @@ public class VideoControllerTest {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("PUT /videos/incrementLikes/{id}")
+    void testIncrementLikes() throws Exception{
+        //Given
+        Integer newLikeCount = 1;
+        Video mockVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        putVideo.setLikes(newLikeCount);
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(putVideo).when(videoService).incrementLikes(1L);
+
+        //Execute
+        mockMvc.perform(get("/zc-video-app/videos/incrementLikes/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putVideo)))
+
+                //Validate
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.likes",is(newLikeCount)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("PUT /videos/incrementDisLikes/{id}")
+    void testIncrementDisLikes() throws Exception{
+        //Given
+        Integer newDisLikeCount = 1;
+        Video mockVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        putVideo.setDislikes(newDisLikeCount);
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(putVideo).when(videoService).incrementDisLikes(1L);
+
+        //Execute
+        mockMvc.perform(get("/zc-video-app/videos/incrementDisLikes/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putVideo)))
+
+                //Validate
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.dislikes",is(newDisLikeCount)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updatePath/{id}")
     void testUpdatePath() throws Exception{
         //Given

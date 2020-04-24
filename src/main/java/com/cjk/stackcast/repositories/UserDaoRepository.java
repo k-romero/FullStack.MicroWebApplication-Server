@@ -1,13 +1,13 @@
 package com.cjk.stackcast.repositories;
 
-import com.cjk.stackcast.models.User;
+import com.cjk.stackcast.models.DAOUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserDaoRepository extends JpaRepository<DAOUser,Long> {
 
-    Optional<User> findUserByUserName(String userName);
+    Optional<DAOUser> findUserByUserName(String userName);
 }

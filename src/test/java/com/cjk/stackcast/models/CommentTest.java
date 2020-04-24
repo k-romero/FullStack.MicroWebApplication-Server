@@ -1,86 +1,110 @@
 package com.cjk.stackcast.models;
 
-import com.cjk.stackcast.models.Comment;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.*;
 
 public class CommentTest {
 
     Comment comment;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         comment = new Comment();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         comment = null;
     }
 
     @Test
     public void instanceOfComment(){
-        Assert.assertTrue(comment instanceof Comment);
+        assertTrue(comment instanceof Comment);
     }
 
     @Test
-    public void nullaryConstructor(){
-        Assert.assertNull(comment.getComment());
+    public void nullConstructor(){
+        assertNull(comment.getMessage());
     }
 
-    @Test
-    public void constructorWithThreeParams(){
-
-        Long videoId = Long.valueOf(1001);
-        Long userId = Long.valueOf(0000);
-        String actualComment = "Comment for testing";
-
-        comment = new Comment(videoId , userId , actualComment);
-
-        Assert.assertEquals(videoId , comment.getVideoId());
-        Assert.assertEquals(userId , comment.getUserId());
-        Assert.assertEquals(actualComment , comment.getComment());
-    }
-    @Test
-    public void constructorWithTwoParams(){
-        Long videoId = Long.valueOf(1001);
-        String actualComment = "Comment for testing";
-
-        comment = new Comment(videoId , actualComment);
-
-        Assert.assertEquals(videoId , comment.getVideoId());
-        Assert.assertEquals(actualComment , comment.getComment());
-    }
     @Test
     public void setCommentID(){
-
-        Assert.assertNull(comment.getCommentId());
+        assertNull(comment.getCommentId());
         comment.setCommentId(Long.valueOf(1));
-        Assert.assertEquals(Long.valueOf(1) , comment.getCommentId());
+        assertEquals(Long.valueOf(1) , comment.getCommentId());
     }
-    @Test
-    public void setVideoID(){
 
-        Assert.assertNull(comment.getCommentId());
-        comment.setVideoId(Long.valueOf(1001));
-        Assert.assertEquals(Long.valueOf(1001) , comment.getVideoId());
-    }
     @Test
     public void setUserID(){
-
-        Assert.assertNull(comment.getCommentId());
+        assertNull(comment.getCommentId());
         comment.setUserId(Long.valueOf(1001));
-        Assert.assertEquals(Long.valueOf(1001) , comment.getUserId());
+        assertEquals(Long.valueOf(1001) , comment.getUserId());
     }
+
     @Test
-    public void setComment(){
-
-        Assert.assertNull(comment.getCommentId());
-        comment.setComment("First Comment");
-        Assert.assertEquals("First Comment" , comment.getComment());
+    public void setMessage() {
+        assertNull(comment.getCommentId());
+        comment.setMessage("First Comment");
+        assertEquals("First Comment", comment.getMessage());
     }
 
+    @Test
+    public void userNameTests(){
+        assertNull(comment.getUsername());
+        comment.setUsername("TestUser");
+        assertEquals("TestUser", comment.getUsername());
+    }
+
+    @Test
+    public void dateTest() throws InterruptedException {
+        assertNull(comment.getDateCreated());
+        comment.setDateCreated(new Date());
+        TimeUnit.SECONDS.sleep(1);
+        Date test = new Date();
+        assertTrue(test.getTime() > comment.getDateCreated().getTime());
+    }
+
+    @Test
+    public void getMessage(){
+        assertNull(comment.getVideo());
+    }
+
+    @Test
+    public void setVideo(){
+        Video video = new Video();
+        comment.setVideo(video);
+        assertNotNull(comment.getVideo());
+    }
+
+    @Test
+    public void constructor2ParamTest(){
+        Comment com = new Comment(1L, "Testing");
+        Long expectedId = 1L;
+        Long actualId = com.getUserId();
+        String expectedMessage = "Testing";
+        String actualMessage = com.getMessage();
+        assertEquals(expectedId,actualId);
+        assertEquals(expectedMessage,actualMessage);
+    }
+
+    @Test
+    public void constructor3ParamTest(){
+        Comment com = new Comment(1L, 2L,"Testing");
+        Long expectedId = 1L;
+        Long actualId = com.getCommentId();
+        Long expectedUserId = 2L;
+        Long actualUserId = com.getUserId();
+        String expectedMessage = "Testing";
+        String actualMessage = com.getMessage();
+        assertEquals(expectedId,actualId);
+        assertEquals(expectedUserId,actualUserId);
+        assertEquals(expectedMessage,actualMessage);
+    }
 
 }

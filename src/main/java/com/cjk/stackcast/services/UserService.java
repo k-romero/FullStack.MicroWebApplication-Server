@@ -1,7 +1,7 @@
 package com.cjk.stackcast.services;
 
-import com.cjk.stackcast.models.User;
-import com.cjk.stackcast.repositories.UserRepository;
+import com.cjk.stackcast.models.DAOUser;
+import com.cjk.stackcast.repositories.UserDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,44 +11,53 @@ import java.util.Optional;
 public class UserService {
 
 
-    private UserRepository repo;
+    private UserDaoRepository repo;
 
     @Autowired
-    public UserService(UserRepository userRepository){
-        this.repo = userRepository;
+    public UserService(UserDaoRepository userDaoRepository){
+        this.repo = userDaoRepository;
     }
 
-    public Optional<User> showUser(Long id){
+    public Optional<DAOUser> showUser(Long id){
         return repo.findById(id);
     }
 
-    public Iterable<User> showAll(){
+    public Iterable<DAOUser> showAll(){
         return repo.findAll();
     }
 
-    public User create(User user){
-        return repo.save(user);
+    public Optional<DAOUser> findByUserName(String userName){
+        return repo.findUserByUserName(userName);
     }
 
-    public User updateUserName(Long userId, String userName){
-        User originalUser = repo.getOne(userId);
-        originalUser.setUserName(userName);
-        return repo.save(originalUser);
+    public DAOUser create(DAOUser DAOUser){
+        if(!findByUserName(DAOUser.getUserName()).isPresent()){
+            return repo.save(DAOUser);
+        }
+         else {
+             throw new IllegalArgumentException("That username is already taken");
+        }
     }
 
-    public User updatePassword(Long userId, String password){
-        User originalUser = repo.getOne(userId);
-        originalUser.setPassword(password);
-        return repo.save(originalUser);
+    public DAOUser updateUserName(Long userId, String userName){
+        DAOUser originalDAOUser = repo.getOne(userId);
+        originalDAOUser.setUserName(userName);
+        return repo.save(originalDAOUser);
     }
 
-    public User updateConnection(Long userId){
-        User originalUser = repo.getOne(userId);
-        if(originalUser.getIsConnected()){
-            originalUser.setIsConnected(false);
+    public DAOUser updatePassword(Long userId, String password){
+        DAOUser originalDAOUser = repo.getOne(userId);
+        originalDAOUser.setPassword(password);
+        return repo.save(originalDAOUser);
+    }
+
+    public DAOUser updateConnection(Long userId){
+        DAOUser originalDAOUser = repo.getOne(userId);
+        if(originalDAOUser.getIsConnected()){
+            originalDAOUser.setIsConnected(false);
         } else
-            originalUser.setIsConnected(true);
-        return repo.save(originalUser);
+            originalDAOUser.setIsConnected(true);
+        return repo.save(originalDAOUser);
     }
 
     public Boolean deleteUser(Long userId){

@@ -33,7 +33,6 @@ public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
-
     @Test
     @DisplayName("Test findById Success")
     public void testFindByIdSuccess(){
@@ -73,7 +72,7 @@ public class VideoServiceTest {
         doReturn(mockVideo1).when(videoRepository).save(any());
 
         // Execute call
-        Video returnVideo = videoService.createVideo(mockVideo1);
+        Video returnVideo = videoService.saveVideo(mockVideo1);
 
         Assertions.assertNotNull(returnVideo, "The saved video should not be null");
     }
@@ -89,6 +88,38 @@ public class VideoServiceTest {
 
         // Execute call
         Integer actual =  videoService.incrementVideoViews(1L).getVideoViews();
+
+        // Assert views incremented by 1
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
+    @DisplayName("Test increment likes")
+    public void testIncrementLikes(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
+        Integer expected = 1;
+
+        // Execute call
+        Integer actual =  videoService.incrementLikes(1L).getLikes();
+
+        // Assert views incremented by 1
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
+    @DisplayName("Test increment dislikes")
+    public void testIncrementDisLikes(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
+        Integer expected = 1;
+
+        // Execute call
+        Integer actual =  videoService.incrementDisLikes(1L).getDislikes();
 
         // Assert views incremented by 1
         Assertions.assertEquals(expected,actual);

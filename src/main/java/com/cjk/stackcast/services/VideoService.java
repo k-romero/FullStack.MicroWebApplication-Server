@@ -1,9 +1,11 @@
 package com.cjk.stackcast.services;
 
 import com.cjk.stackcast.aws.AwsS3Configuration;
-import com.cjk.stackcast.models.User;
+
+import com.cjk.stackcast.models.Comment;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.repositories.VideoRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +14,6 @@ import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.model.*;
-
 
 import java.io.File;
 
@@ -46,9 +47,8 @@ public class VideoService {
         return repo.findAllByUserId(userId);
     }
 
-
-    public Video createVideo(Video basicVideo){
-        return repo.save(basicVideo);
+    public Video saveVideo(Video video){
+        return repo.save(video);
     }
 
     public boolean delete(Long videoId){
@@ -72,6 +72,18 @@ public class VideoService {
         return repo.save(video);
     }
 
+    public Video incrementLikes(Long videoId){
+        Video video = repo.getOne(videoId);
+        video.setLikes(video.getLikes() + 1);
+        return repo.save(video);
+    }
+
+    public Video incrementDisLikes(Long videoId){
+        Video video = repo.getOne(videoId);
+        video.setDislikes(video.getDislikes() + 1);
+        return repo.save(video);
+    }
+
     public Video updateVideoName(Long videoId, String newName){
         Video video = repo.getOne(videoId);
         video.setVideoName(newName);
@@ -84,14 +96,17 @@ public class VideoService {
         return repo.save(video);
     }
 
-    public Video uploadVideo(String videoName, MultipartFile multipartFile) throws Exception{
+    public Video uploadVideo(String videoName, Long userId, MultipartFile multipartFile) throws Exception{
         File file = convertMultiPartFile(multipartFile);
         String fileName = generateFileName(file.getName());
         Video video = new Video(videoName,multipartFile.getContentType(),fileName);
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
+        video.setUserId(userId);
+        video.setVideoViews(0);
+        video.setOriginalVideoKey(fileName);
         if(uploadFile(file,fileName).isSuccessful()){
-            return createVideo(video);
+            return saveVideo(video);
         } else
             return null;
     }
@@ -117,9 +132,10 @@ public class VideoService {
     }
 
     public void verifyFileType(String videoName, MultipartFile multipartFile) throws Exception{
+        Long placeHolderUserId = 1L;
         ArrayList<String> validFileTypes = new ArrayList<>(Arrays.asList("video/mp4","video/mov"));
         if(validFileTypes.contains(multipartFile.getContentType())){
-            uploadVideo(videoName, multipartFile);
+            uploadVideo(videoName, placeHolderUserId,multipartFile);
         } else {
             throw new InputMismatchException("Invalid file type. Only video files are allowed");
         }

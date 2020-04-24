@@ -94,6 +94,38 @@ public class VideoServiceTest {
     }
 
     @Test
+    @DisplayName("Test increment likes")
+    public void testIncrementLikes(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
+        Integer expected = 1;
+
+        // Execute call
+        Integer actual =  videoService.incrementLikes(1L).getLikes();
+
+        // Assert views incremented by 1
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
+    @DisplayName("Test increment dislikes")
+    public void testIncrementDisLikes(){
+        // Set up mock object and repository
+        Video mockVideo1 = new Video("testVideoName1","https://testPath.com/test1" ,"video/mp4");
+        doReturn(mockVideo1).when(videoRepository).save(mockVideo1);
+        doReturn(mockVideo1).when(videoRepository).getOne(1L);
+        Integer expected = 1;
+
+        // Execute call
+        Integer actual =  videoService.incrementDisLikes(1L).getDislikes();
+
+        // Assert views incremented by 1
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
     @DisplayName("Test update Video name")
     public void updateVideoName(){
         // Set up mock object and repository

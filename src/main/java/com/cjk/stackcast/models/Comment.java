@@ -22,7 +22,6 @@ public class Comment {
     @JoinColumn(name = "VIDEO_ID")
     private Video video;
 
-
     public Comment(){
     }
 

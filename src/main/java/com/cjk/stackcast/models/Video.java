@@ -1,7 +1,5 @@
 package com.cjk.stackcast.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +19,10 @@ public class Video {
     private String videoType;
     @Column(name = "VIDEO_VIEWS")
     private Integer videoViews;
+    @Column(name = "LIKES")
+    private Integer likes;
+    @Column(name = "DISLIKES")
+    private Integer dislikes;
     @Column(name = "VIDEO_KEY")
     private String originalVideoKey;
     @Column(name = "USER_ID")
@@ -34,6 +36,8 @@ public class Video {
         this.videoPath = videoPath;
         this.videoType = "";
         videoViews = 0;
+        this.likes = 0;
+        this.dislikes = 0;
         originalVideoKey = "";
     }
 
@@ -43,6 +47,8 @@ public class Video {
         this.videoPath = videoPath;
         this.videoType = videoType;
         this.videoViews = 0;
+        this.likes = 0;
+        this.dislikes = 0;
         this.originalVideoKey = "";
         this.userId = 0L;
         this.comments = new ArrayList<>();
@@ -53,6 +59,8 @@ public class Video {
         this.videoType = videoType;
         this.originalVideoKey = originalVideoKey;
         videoViews = 0;
+        this.likes = 0;
+        this.dislikes = 0;
         videoPath = "";
     }
 
@@ -121,6 +129,22 @@ public class Video {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Integer dislikes) {
+        this.dislikes = dislikes;
     }
 
     @Override

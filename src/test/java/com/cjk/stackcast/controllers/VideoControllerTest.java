@@ -1,5 +1,6 @@
 package com.cjk.stackcast.controllers;
 
+import com.cjk.stackcast.models.DAOUser;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
@@ -73,6 +76,29 @@ public class VideoControllerTest {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("GET /videos/show - Found All")
+    void testGetAllVideosFound() throws Exception {
+        //Setup our mocked service
+        Video mockVideo = new Video(1L,"Test Video1","https://testPath.com/test","video/mp4");
+        Video mockVideo2 = new Video(1L,"Test Video2","https://testPath.com/test","video/mp4");
+        Iterable<Video> users = new ArrayList<>(Arrays.asList(mockVideo, mockVideo2));
+
+        doReturn(users).when(videoService).showAll();
+
+        //Execute the GET request
+        mockMvc.perform(get("/zc-video-app/videos/show"))
+
+                //Validate that we get a 200 Found
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.*").isArray())
+                .andExpect(jsonPath("$[0].videoName", is("Test Video1")))
+                .andExpect(jsonPath("$[1].videoName", is("Test Video2")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updateName/{id}")
     void testUpdateName() throws Exception{
         //Given
@@ -106,7 +132,7 @@ public class VideoControllerTest {
         doReturn(putVideo).when(videoService).incrementVideoViews(1L);
 
         //Execute
-        mockMvc.perform(put("/zc-video-app/videos/incrementViews/{id}",1)
+        mockMvc.perform(get("/zc-video-app/videos/incrementViews/{id}",1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(putVideo)))
 

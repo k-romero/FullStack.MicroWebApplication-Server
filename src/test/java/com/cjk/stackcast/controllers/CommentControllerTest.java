@@ -107,4 +107,20 @@ public class CommentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("DELETE comments/delete/{id}")
+    void testDeleteComment() throws Exception{
+        //Given
+        Comment mockComment1 = new Comment(1L, 1L,"Test Comment 1");
+        doReturn(mockComment1).when(commentService).create(1L,mockComment1);
+        doReturn(true).when(videoService).delete(1L);
+
+        //Execute
+        mockMvc.perform(delete("/zc-video-app/comments/delete/{id}",1))
+
+                //Validate
+                .andExpect(status().isOk());
+    }
+
 }

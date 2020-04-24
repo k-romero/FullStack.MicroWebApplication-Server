@@ -129,6 +129,28 @@ class VideoTest {
     }
 
     @Test
+    void getLikesTest(){
+        assertNull(testVideo.getLikes());
+    }
+
+    @Test
+    void setLikes(){
+        testVideo.setLikes(1);
+        assertEquals(1, testVideo.getLikes());
+    }
+
+    @Test
+    void getDisLikesTest(){
+        assertNull(testVideo.getDislikes());
+    }
+
+    @Test
+    void setDisLikes(){
+        testVideo.setDislikes(1);
+        assertEquals(1, testVideo.getDislikes());
+    }
+
+    @Test
     void constructor2ParamTest(){
         Video vidTest = new Video("Testing Video","http://testvideopath.test");
         assertEquals("Testing Video",vidTest.getVideoName());

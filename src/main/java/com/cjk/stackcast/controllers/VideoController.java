@@ -74,9 +74,19 @@ public class VideoController {
         return new ResponseEntity<>(service.updateVideoName(id,videoName), HttpStatus.OK);
     }
 
-    @PutMapping("/incrementViews/{id}")
+    @GetMapping("/incrementViews/{id}")
     public ResponseEntity<Video> incrementViews(@PathVariable Long id) {
         return new ResponseEntity<>(service.incrementVideoViews(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/incrementLikes/{id}")
+    public ResponseEntity<Video> incrementLikes(@PathVariable Long id) {
+        return new ResponseEntity<>(service.incrementLikes(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/incrementDisLikes/{id}")
+    public ResponseEntity<Video> incrementDisLikes(@PathVariable Long id) {
+        return new ResponseEntity<>(service.incrementDisLikes(id), HttpStatus.OK);
     }
 
     @PutMapping("/updatePath/{id}")
@@ -86,6 +96,6 @@ public class VideoController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteVideo(@PathVariable Long id) {
-        return new ResponseEntity<>(service.delete(id),HttpStatus.GONE);
+        return new ResponseEntity<>(service.delete(id),HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.cjk.stackcast.controllers;
 
+import com.cjk.stackcast.models.DAOUser;
 import com.cjk.stackcast.models.Video;
 import com.cjk.stackcast.services.VideoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
@@ -73,6 +76,29 @@ public class VideoControllerTest {
 
     @Test
     @WithMockUser(username = "admin")
+    @DisplayName("GET /videos/show - Found All")
+    void testGetAllVideosFound() throws Exception {
+        //Setup our mocked service
+        Video mockVideo = new Video(1L,"Test Video1","https://testPath.com/test","video/mp4");
+        Video mockVideo2 = new Video(1L,"Test Video2","https://testPath.com/test","video/mp4");
+        Iterable<Video> users = new ArrayList<>(Arrays.asList(mockVideo, mockVideo2));
+
+        doReturn(users).when(videoService).showAll();
+
+        //Execute the GET request
+        mockMvc.perform(get("/zc-video-app/videos/show"))
+
+                //Validate that we get a 200 Found
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(jsonPath("$.*").isArray())
+                .andExpect(jsonPath("$[0].videoName", is("Test Video1")))
+                .andExpect(jsonPath("$[1].videoName", is("Test Video2")));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
     @DisplayName("PUT /videos/updateName/{id}")
     void testUpdateName() throws Exception{
         //Given
@@ -106,13 +132,57 @@ public class VideoControllerTest {
         doReturn(putVideo).when(videoService).incrementVideoViews(1L);
 
         //Execute
-        mockMvc.perform(put("/zc-video-app/videos/incrementViews/{id}",1)
+        mockMvc.perform(get("/zc-video-app/videos/incrementViews/{id}",1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(putVideo)))
 
                 //Validate
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.videoViews",is(newViewCount)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("PUT /videos/incrementLikes/{id}")
+    void testIncrementLikes() throws Exception{
+        //Given
+        Integer newLikeCount = 1;
+        Video mockVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        putVideo.setLikes(newLikeCount);
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(putVideo).when(videoService).incrementLikes(1L);
+
+        //Execute
+        mockMvc.perform(get("/zc-video-app/videos/incrementLikes/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putVideo)))
+
+                //Validate
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.likes",is(newLikeCount)));
+    }
+
+    @Test
+    @WithMockUser(username = "admin")
+    @DisplayName("PUT /videos/incrementDisLikes/{id}")
+    void testIncrementDisLikes() throws Exception{
+        //Given
+        Integer newDisLikeCount = 1;
+        Video mockVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        Video putVideo = new Video(1L,"Test Videos","https://testPath.com/test","video/mp4");
+        putVideo.setDislikes(newDisLikeCount);
+        doReturn(Optional.of(mockVideo)).when(videoService).show(1L);
+        doReturn(putVideo).when(videoService).incrementDisLikes(1L);
+
+        //Execute
+        mockMvc.perform(get("/zc-video-app/videos/incrementDisLikes/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(putVideo)))
+
+                //Validate
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.dislikes",is(newDisLikeCount)));
     }
 
     @Test

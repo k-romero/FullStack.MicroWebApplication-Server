@@ -72,6 +72,18 @@ public class VideoService {
         return repo.save(video);
     }
 
+    public Video incrementLikes(Long videoId){
+        Video video = repo.getOne(videoId);
+        video.setLikes(video.getLikes() + 1);
+        return repo.save(video);
+    }
+
+    public Video incrementDisLikes(Long videoId){
+        Video video = repo.getOne(videoId);
+        video.setDislikes(video.getDislikes() + 1);
+        return repo.save(video);
+    }
+
     public Video updateVideoName(Long videoId, String newName){
         Video video = repo.getOne(videoId);
         video.setVideoName(newName);
@@ -91,6 +103,8 @@ public class VideoService {
         String fileUrl = config.getEndPointUrl() + "/" + fileName;
         video.setVideoPath(fileUrl);
         video.setUserId(userId);
+        video.setVideoViews(0);
+        video.setOriginalVideoKey(fileName);
         if(uploadFile(file,fileName).isSuccessful()){
             return saveVideo(video);
         } else

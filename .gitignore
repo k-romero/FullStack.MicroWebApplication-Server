@@ -35,5 +35,5 @@ target/
 
 
 src/main/resources/application-ps.properties
-
+src/main/resources/application-dev.properties
 *.mp4

@@ -52,10 +52,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/authenticate","/register")
+                .authorizeRequests().antMatchers("/authenticate","/register","/")
                 .permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
                 // all other requests need to be authenticated
